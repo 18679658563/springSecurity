@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.rz.security.mapper.RoleMapper">
+    <resultMap id="roleMap" type="com.rz.security.pojo.Role">
+        <id jdbcType="CHAR" property="id" column="id"/>
+        <result jdbcType="VARCHAR" property="roleName" column="role_name"/>
+        <result jdbcType="TIMESTAMP" property="createTime" column="create_time"/>
+        <result jdbcType="TIMESTAMP" property="lastUpdateTime" column="last_update_time"/>
+    </resultMap>
+
+    <sql id="Base_pojo">
+        id,role_name,status,create_time,last_update_time,stat
+    </sql>
+
+    <select id="selectById" resultMap="roleMap">
+        select
+          <include refid="Base_pojo"/>
+            from t_role
+              where id=#{id}
+    </select>
+
+    <select id="selectByIds" resultMap="roleMap" parameterType="java.util.List">
+        select
+        <include refid="Base_pojo"/>
+        from t_role
+        where id in
+        <foreach collection="ids" item="id" index="index" open="(" separator="," close=")">
+          #{id}
+        </foreach>
+    </select>
+</mapper>

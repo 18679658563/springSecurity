@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.rz.security.mapper.UserRoleMapper">
+    <resultMap id="userRoleMap" type="com.rz.security.pojo.UserRole">
+        <id jdbcType="CHAR" property="id" column="id"/>
+        <result jdbcType="CHAR" property="userId" column="user_id"/>
+        <result jdbcType="CHAR" property="roleId" column="role_id"/>
+        <result jdbcType="TIMESTAMP" property="createTime" column="create_time"/>
+        <result jdbcType="TIMESTAMP" property="lastUpdateTime" column="last_update_time"/>
+    </resultMap>
+
+    <sql id="Base_pojo">
+        id,user_id,role_id,create_time,last_update_time,stat
+    </sql>
+
+    <select id="selectByUserId" resultMap="userRoleMap">
+        select
+          <include refid="Base_pojo"/>
+            from t_user_role
+              where id=#{userId}
+    </select>
+
+    <select id="selectByRoleId" resultMap="userRoleMap">
+        select
+          <include refid="Base_pojo"/>
+            from t_user_role
+              where id=#{roleId}
+    </select>
+</mapper>

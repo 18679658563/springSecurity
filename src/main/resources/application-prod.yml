@@ -1,0 +1,13 @@
+server:
+  port: 8002
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    username: root
+    password: 123456
+    url: jdbc:mysql://localhost:3306/security
+
+mybatis:
+  typeAliasesPackage: com.rz.security.entity
+  mapperLocations: classpath:mapper/*.xml

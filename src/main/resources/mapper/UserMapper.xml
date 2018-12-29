@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.rz.security.mapper.UserMapper">
+    <resultMap id="userMap" type="com.rz.security.pojo.User">
+        <id jdbcType="CHAR" property="id" column="id"/>
+        <result jdbcType="VARCHAR" property="loginName" column="login_name"/>
+        <result jdbcType="VARCHAR" property="userName" column="user_name"/>
+        <result jdbcType="TIMESTAMP" property="createTime" column="create_time"/>
+        <result jdbcType="TIMESTAMP" property="lastUpdateTime" column="last_update_time"/>
+    </resultMap>
+
+    <sql id="Base_sql">
+        id,user_name,login_name,password,status,create_time,last_update_time,stat
+    </sql>
+
+    <select id="selectById" resultMap="userMap">
+        select
+          <include refid="Base_sql"/>
+            from t_user
+              where id=#{id}
+    </select>
+
+    <select id="selectByName" resultMap="userMap">
+        select
+          <include refid="Base_sql"/>
+            from t_user
+              where user_name=#{name}
+    </select>
+</mapper>
