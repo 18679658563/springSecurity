@@ -49,14 +49,19 @@ public class CustomUserService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username){
         System.out.println(username);
-        User user = userMapper.selectByName(username);
-        if(user == null){
+        User user = new User();
+        user.setLoginName(username);
+        List<User> users = userMapper.selectByUser(user);
+        if(CollectionUtils.isEmpty(users)){
             System.out.println(1);
             throw new UsernameNotFoundException("此用户不存在");
         }
+        user = users.get(0);
         //用户添加用户的权限，只要把用户权限添加authorities就好
         List<GrantedAuthority> grantedAuthoritys = new ArrayList<>();
-        List<UserRole> userRoleList = userRoleMapper.selectByUserId(user.getId());
+        UserRole ur = new UserRole();
+        ur.setUserId(user.getId());
+        List<UserRole> userRoleList = userRoleMapper.selectByUserRole(ur);
         if(CollectionUtils.isEmpty(userRoleList)){
             System.out.println(2);
             throw new UsernameNotFoundException("此用户非管理员");
@@ -71,18 +76,6 @@ public class CustomUserService implements UserDetailsService {
             grantedAuthoritys.add(new SimpleGrantedAuthority(role.getRoleName()));
             System.out.println(grantedAuthoritys+"---------"+grantedAuthoritys.toString());
         }
-//        List<RolePermission> rolePermissionList = rolePermissionMapper.selectByRoleIds(roleIds);
-//        if(CollectionUtils.isEmpty(rolePermissionList)){
-//            throw new UsernameNotFoundException("此用户无任何权限");
-//        }
-//        List<String> perIds = new LinkedList<>();
-//        for(RolePermission rp : rolePermissionList){
-//            perIds.add(rp.getPerId());
-//        }
-//        List<Permission> permissionList = permissionMapper.selectByIds(perIds);
-//        for(Permission permission : permissionList){
-//            grantedAuthoritys.add(new SimpleGrantedAuthority(permission.getUrl()));
-//        }
         return new org.springframework.security.core.userdetails.User(user.getUserName(),user.getPassword(),grantedAuthoritys);
     }
 }

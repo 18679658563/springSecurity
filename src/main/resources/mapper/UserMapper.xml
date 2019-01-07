@@ -20,10 +20,28 @@
               where id=#{id}
     </select>
 
-    <select id="selectByName" resultMap="userMap">
+    <select id="selectByUser" resultMap="userMap">
         select
           <include refid="Base_sql"/>
             from t_user
-              where user_name=#{name}
+            where stat = 1
+            <if test="user.userName != null and user.userName!=''">
+              and user_name = #{user.userName}
+            </if>
+            <if test=" user.loginName != null and user.loginName!='' ">
+                and login_name = #{user.loginName}
+            </if>
+            <if test=" user.password != null and user.password!='' ">
+                and password = #{user.password}
+            </if>
+            <if test=" user.status != null ">
+                and status = #{user.status}
+            </if>
+            <if test=" user.createTime != null ">
+                and create_time &gt;= #{user.createTime}
+            </if>
+            <if test=" user.lastUpdateTime != null ">
+                and last_update_time &lt;= #{user.lastUpdateTime}
+            </if>
     </select>
 </mapper>

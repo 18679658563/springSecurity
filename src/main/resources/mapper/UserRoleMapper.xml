@@ -13,17 +13,18 @@
         id,user_id,role_id,create_time,last_update_time,stat
     </sql>
 
-    <select id="selectByUserId" resultMap="userRoleMap">
+    <select id="selectByUserRole" resultMap="userRoleMap">
         select
           <include refid="Base_pojo"/>
             from t_user_role
-              where id=#{userId}
+              where stat = 1
+              <if test=" userRole.userId != null and userRole.userId !='' ">
+                  and user_id = #{userRole.userId}
+              </if>
+              <if test=" userRole.roleId != null and userRole.roleId !='' ">
+                  and role_id = #{userRole.roleId}
+              </if>
     </select>
 
-    <select id="selectByRoleId" resultMap="userRoleMap">
-        select
-          <include refid="Base_pojo"/>
-            from t_user_role
-              where id=#{roleId}
-    </select>
+
 </mapper>

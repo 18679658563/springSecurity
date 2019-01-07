@@ -17,6 +17,8 @@ public class Permission {
     private String id;
     private String description;
     private String url;
+    private String permissionId;
+    private String status;
     private Date createTime;
     private Date lastUpdateTime;
     private Boolean stat;

@@ -14,9 +14,8 @@ import java.util.List;
  */
 public interface RolePermissionMapper {
 
-    public List<RolePermission> selectByRoleId(String roleId);
+    public List<RolePermission> selectByRolePermission(RolePermission rolePermission);
 
     public List<RolePermission> selectByRoleIds(@Param("roleIds") List<String> roleIds);
 
-    public List<RolePermission> selectByPerId(String perId);
 }

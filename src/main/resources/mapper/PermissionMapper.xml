@@ -3,12 +3,13 @@
 <mapper namespace="com.rz.security.mapper.PermissionMapper">
     <resultMap id="permissionMap" type="com.rz.security.pojo.Permission">
         <id jdbcType="CHAR" property="id" column="id"/>
+        <result jdbcType="CHAR" property="permissionId" column="permission_id"/>
         <result jdbcType="TIMESTAMP" property="createTime" column="create_time"/>
         <result jdbcType="TIMESTAMP" property="lastUpdateTime" column="last_update_time"/>
     </resultMap>
 
     <sql id="Base_sql">
-        id,description,url,create_time,last_update_time,stat
+        id,description,url,permission_id,status,create_time,last_update_time,stat
     </sql>
 
     <select id="selectById" resultMap="permissionMap">

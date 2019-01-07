@@ -12,4 +12,6 @@ import com.rz.security.pojo.User;
 public interface IUserService {
 
     User findById(String id);
+
+    User findByName(String name);
 }

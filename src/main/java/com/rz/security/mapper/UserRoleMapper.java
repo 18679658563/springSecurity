@@ -2,13 +2,14 @@ package com.rz.security.mapper;
 
 
 import com.rz.security.pojo.UserRole;
+import org.apache.ibatis.annotations.Param;
+import org.springframework.security.core.parameters.P;
 
 import java.util.List;
 
 public interface UserRoleMapper {
 
-    List<UserRole> selectByUserId(String userId);
+    List<UserRole> selectByUserRole(@Param("userRole") UserRole userRole);
 
-    List<UserRole> selectByRoleId(String roleId);
 
 }

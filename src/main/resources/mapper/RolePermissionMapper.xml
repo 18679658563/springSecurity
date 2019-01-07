@@ -13,11 +13,17 @@
         id,role_id,per_id,create_time,last_update_time,stat
     </sql>
 
-    <select id="selectByRoleId" resultMap="rolePerMap">
+    <select id="selectByRolePermission" resultMap="rolePerMap">
         select
           <include refid="Base_sql"/>
             from t_role_permission
-              where role_id=#{roleId}
+              where stat = 1
+              <if test=" roleId != null and roleId !='' ">
+                  and role_id = #{roleId}
+              </if>
+              <if test=" perId != null and perId != '' ">
+                  and per_id = #{perId}
+              </if>
     </select>
 
     <select id="selectByRoleIds" resultMap="rolePerMap">
@@ -30,12 +36,7 @@
         </foreach>
     </select>
 
-    <select id="selectByPerId" resultMap="rolePerMap">
-        select
-        <include refid="Base_sql"/>
-        from t_role_permission
-        where per_id=#{perId}
-    </select>
+
 
 
 

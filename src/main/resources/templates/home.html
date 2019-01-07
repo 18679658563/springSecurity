@@ -40,9 +40,18 @@
             <p class="bg-info" th:text="管理员"></p>
         </div>
 
+
         <div sec:authorize="hasRole('ROLE_USER')"> <!-- 用户类型为 ROLE_USER 显示 -->
-            <p class="bg-info">无更多信息显示</p>
+            <p class="bg-info">用户</p>
         </div>
+
+
+        <li class="layui-nav-item" th:each="permission:${permissionList}"> <a class="javascript:;" href="javascript:;"> <i class="layui-icon" style="top: 3px;">&#xe613;</i><cite>[[${permission.description}]]</cite> </a>
+            <dl class="layui-nav-child">
+                <a href="javascript:;" th:if="${#strings.contains(permission.url,'_')}"> <cite >[[${permission.description}]]</cite> </a>
+                <a href="javascript:;" th:if="${#strings.contains(permission.url,'=')}"> <cite >[[${permission.description}]]</cite> </a>
+            </dl>
+        </li>
 
         <form th:action="@{/logout}" method="post">
             <input type="submit" class="btn btn-primary" value="注销"/>
@@ -50,7 +59,6 @@
     </div>
 
 </div>
-
 
 </body>
 </html>
