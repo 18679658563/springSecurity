@@ -1,26 +1,46 @@
 package com.rz.security.pojo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import java.util.Date;
 
+/***
+ * 用户类
+ */
 @Data
-public class User {
-    private String id;
+public class User extends BaseEntity<Long>{
 
-    private String userName;
+    private static final long serialVersionUID = -6525908145032868837L;
 
-    private String loginName;
+    private String username;
 
     private String password;
 
-    private Boolean status;
+    private String nickname;
 
-    private Date createTime;
+    private String headImgUrl;
 
-    private Date lastUpdateTime;
+    private String phone;
 
-    private Boolean stat;
+    private String telephone;
+
+    private String email;
+
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private Date brithday;
+
+    private Integer sex;
+
+    private Integer status;
+
+    private String intro;
+
+    public interface Status{
+        int DISABLED = 0;
+        int VALID = 1;
+        int LOCKED = 2;
+    }
 
 
 }

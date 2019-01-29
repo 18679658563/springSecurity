@@ -1,9 +1,10 @@
 package com.rz.security.mapper;
 
 import com.rz.security.pojo.Permission;
-import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created with IntelliJ IDEA.
@@ -14,9 +15,89 @@ import java.util.List;
  */
 public interface PermissionMapper {
 
-    public Permission selectById(String id);
+    /**
+     * 根据id查询权限表信息
+     * @param id
+     * @return
+     */
+    @Select("select * from sys_permission t where t.id = #{id}")
+    Permission selectById(Long id);
 
-    public List<Permission> selectByIds(@Param("ids") List<String> ids);
+    /**
+     *  查询所有权限信息
+     * @return
+     */
+    @Select("select * from sys_permission t order by t.sort")
+    List<Permission> selectAll();
 
-    public List<Permission> selectAll();
+    /**
+     * 查询一级菜单
+     * @return
+     */
+    @Select("select * from sys_permission t where t.type = 1 order by t.sort")
+    List<Permission> selectByParentId();
+
+    /**
+     * 根据用户id查询所有权限信息
+     * @param userId
+     * @return
+     */
+    @Select("select distinct p.* from sys_permission p inner join sys_role_permission rp om p.id = rp.permissionId inner join sys_role_user ru on ru.roleId = rp.roleId where ru.userId = #{userId} order by p.sort")
+    List<Permission> selectByUserId(Long userId);
+
+    /**
+     * 根据角色id查询权限信息
+     * @param roleId
+     * @return
+     */
+    @Select("select p.* from sys_permission p inner join sys_role_permission rp on p.id = rp.permissionId where rp.roleId = #{roleId} order by p.sort")
+    List<Permission> selectByRoleId(Long roleId);
+
+    /**
+     * 添加权限
+     * @param permission
+     * @return
+     */
+    @Insert("insert into sys_permission(parentId, name, css, href, type, permission, sort) values(#{parentId}, #{name}, #{css}, #{href}, #{type}, #{permission}, #{sort})")
+    int insertPermission(Permission permission);
+
+    /**
+     * 修改权限信息
+     * @param permission
+     * @return
+     */
+    @Update("update sys_permission t set parentId = #{parentId}, name = #{name}, css = #{css}, href = #{href}, type = #{type}, permission = #{permission}, sort = #{sort} where t.id = #{id}")
+    int update(Permission permission);
+
+    /**
+     * 根据主键id删除权限
+     * @param id
+     * @return
+     */
+    @Delete("delete from sys_permission where id = #{id}")
+    int deleteById(Long id);
+
+    /**
+     * 删除子菜单
+     * @param id
+     * @return
+     */
+    @Delete("delete from sys_permission where parentId = #{id}")
+    int deleteByParentId(Long id);
+
+    /**
+     * 删除中间表信息
+     * @param permissionId
+     * @return
+     */
+    @Delete("delete from sys_role_permission where permissionId = #{permissionId}")
+    int deleteRolePermission(Long permissionId);
+
+    /**
+     * 根据权限id查询所有拥有此权限的用户
+     * @param permissionId
+     * @return
+     */
+    @Select("select ru.userId from sys_role_permission rp inner join sys_role_user ru on ru.roleId = rp.roleId where rp.permissionId = #{permissionId}")
+    Set<Long> selectUserIds(Long permissionId);
 }

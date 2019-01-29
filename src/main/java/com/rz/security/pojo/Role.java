@@ -2,20 +2,16 @@ package com.rz.security.pojo;
 
 import lombok.Data;
 
-import java.util.Date;
-
+/***
+ * 角色基类
+ */
 @Data
-public class Role {
-    private String id;
+public class Role extends BaseEntity<Long> {
 
-    private String roleName;
+    private static final long serialVersionUID = -3802292814767103648L;
 
-    private Boolean status;
+    private String Name;
 
-    private Date createTime;
-
-    private Date lastUpdateTime;
-
-    private Boolean stat;
+    private String description;
 
 }

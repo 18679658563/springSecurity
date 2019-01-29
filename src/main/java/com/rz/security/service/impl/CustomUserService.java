@@ -4,7 +4,6 @@ import com.rz.security.mapper.*;
 import com.rz.security.pojo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -12,7 +11,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -28,8 +26,7 @@ public class CustomUserService implements UserDetailsService {
     @Autowired
     private UserMapper userMapper;
 
-    @Autowired
-    private UserRoleMapper userRoleMapper;
+
 
     @Autowired
     private RoleMapper roleMapper;
@@ -37,8 +34,7 @@ public class CustomUserService implements UserDetailsService {
     @Autowired
     private PermissionMapper permissionMapper;
 
-    @Autowired
-    private RolePermissionMapper rolePermissionMapper;
+
 
     /**
      * 获取UserDetails类型用户
@@ -49,33 +45,26 @@ public class CustomUserService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username){
         System.out.println(username);
-        User user = new User();
-        user.setLoginName(username);
-        List<User> users = userMapper.selectByUser(user);
-        if(CollectionUtils.isEmpty(users)){
-            System.out.println(1);
-            throw new UsernameNotFoundException("此用户不存在");
-        }
-        user = users.get(0);
+        User user = userMapper.selectByName(username);
         //用户添加用户的权限，只要把用户权限添加authorities就好
         List<GrantedAuthority> grantedAuthoritys = new ArrayList<>();
-        UserRole ur = new UserRole();
-        ur.setUserId(user.getId());
-        List<UserRole> userRoleList = userRoleMapper.selectByUserRole(ur);
-        if(CollectionUtils.isEmpty(userRoleList)){
-            System.out.println(2);
-            throw new UsernameNotFoundException("此用户非管理员");
-        }
-        List<String> roleIds = new LinkedList<>();
-        for(UserRole userRole : userRoleList){
-            roleIds.add(userRole.getId());
-        }
-        List<Role> roleList = roleMapper.selectByIds(roleIds);
-        for(Role role : roleList){
-            System.out.println(role.getRoleName());
-            grantedAuthoritys.add(new SimpleGrantedAuthority(role.getRoleName()));
-            System.out.println(grantedAuthoritys+"---------"+grantedAuthoritys.toString());
-        }
-        return new org.springframework.security.core.userdetails.User(user.getUserName(),user.getPassword(),grantedAuthoritys);
+        //UserRole ur = new UserRole();
+        //ur.setUserId(user.getId());
+        //List<UserRole> userRoleList = userRoleMapper.selectByUserRole(ur);
+        //if(CollectionUtils.isEmpty(userRoleList)){
+        //    System.out.println(2);
+        //   throw new UsernameNotFoundException("此用户非管理员");
+        //}
+        //List<String> roleIds = new LinkedList<>();
+        //for(UserRole userRole : userRoleList){
+        //    roleIds.add(userRole.getId());
+        //}
+        //List<Role> roleList = roleMapper.selectByIds(roleIds);
+        //for(Role role : roleList){
+        //    System.out.println(role.getRoleName());
+        //    grantedAuthoritys.add(new SimpleGrantedAuthority(role.getRoleName()));
+        //    System.out.println(grantedAuthoritys+"---------"+grantedAuthoritys.toString());
+        //}
+        return new org.springframework.security.core.userdetails.User(user.getUsername(),user.getPassword(),grantedAuthoritys);
     }
 }

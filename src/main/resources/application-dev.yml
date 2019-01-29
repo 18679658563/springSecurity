@@ -1,5 +1,5 @@
 server:
-  port: 8001
+  port: 8888
 
 spring:
   main:
@@ -12,33 +12,49 @@ spring:
     username: root
     password: 123456
     url: jdbc:mysql://localhost:3306/security
-    dbcp2:
-      #最小
-      min-idle: 5
-      #初始化
-      initial-size: 5
-      #最大
-      max-idle: 20
-      #配置获取连接等待超时的时间
-      max-wait-millis: 60000
-      #连接在池中最小生存时间
-      min-evictable-idle-time-millis: 300000
-      validation-query: SELECT 1 FROM DUAL
-      test-while-idle: true
-      test-on-borrow: false
-      test-on-return: false
-
+    druid:
+      initialSize: 5
+      minIdle: 5
+      maxActive: 20
+      maxWait: 60000
+      timeBetweenEvictionRunsMillis: 60000
+      minEvictableIdleTimeMillis: 300000
+      validationQuery: SELECT 1
+      testWhileIdle: true
+      testOnBorrow: true
+      testOnReturn: false
+      poolPreparedStatements: true
+      maxPoolPreparedStatementPerConnectionSize: 20
+      filters: stat,wall
+      connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+      stat-view-servlet:
+        allow: 127.0.0.1
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    joda-date-time-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
+    mvc:
+      servlet:
+        load-on-startup: 1
+  redis:
+    host: localhost
+    port: 6379
+    timeout: 10s
+    lettuce:
+      pool:
+        min-idle: 0
+        max-idle: 8
+        max-active: 8
+        max-wait: -1ms
 mybatis:
   typeAliasesPackage: com.rz.security.entity
   mapper-locations: classpath:mapper/*.xml
 
 logging:
-  level:
-    org:
-      springframework:
-        security: INFO
-    com:
-      rz:
-        security:
-          mapper: debug
+  config: classpath:logback-admin.xml
+
 
