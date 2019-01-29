@@ -2,7 +2,7 @@ package com.rz.security.filter;
 
 import com.rz.security.dto.LoginUser;
 import com.rz.security.service.ITokenService;
-import com.rz.security.service.impl.CustomUserService;
+import com.rz.security.service.impl.UserDetailsServiceImpl;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -32,7 +32,7 @@ public class TokenFilter extends OncePerRequestFilter {
     private ITokenService tokenService;
 
     @Autowired
-    private CustomUserService customUserService;
+    private UserDetailsServiceImpl userDetailsServiceImpl;
 
     private static final Long MINUTES_10 = 10 * 60 * 1000L;
 
@@ -61,7 +61,7 @@ public class TokenFilter extends OncePerRequestFilter {
         long currentTime = System.currentTimeMillis();
         if(expireTime - currentTime <= MINUTES_10){
             String token =loginUser.getToken();
-            loginUser = (LoginUser)customUserService.loadUserByUsername(loginUser.getUsername());
+            loginUser = (LoginUser) userDetailsServiceImpl.loadUserByUsername(loginUser.getUsername());
             loginUser.setToken(token);
             tokenService.refresh(loginUser);
         }
