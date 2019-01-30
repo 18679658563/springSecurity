@@ -12,7 +12,7 @@ import java.util.Date;
  * Time: 下午3:48
  */
 @Data
-public class Token {
+public class Token extends BaseEntity<String> {
 
     private static final long serialVersionUID = 4566334160572911795L;
 
