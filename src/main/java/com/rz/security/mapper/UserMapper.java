@@ -14,7 +14,7 @@ public interface UserMapper {
      * @return
      */
     @Select("select * from sys_user t where t.id = #{id}")
-    User selectById(String id);
+    User selectById(Long id);
 
     /**
      * 根据用户名查询用户信息
