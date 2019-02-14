@@ -5,31 +5,27 @@
 <title>Insert title here</title>
 <link rel="stylesheet" type="text/css" media="screen" href="../../css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css" media="screen" href="../../css/dataTables.bootstrap.min.css">
-<link rel="stylesheet" type="text/css" media="screen" href="../../layui/css/layui.css">
+<link rel="stylesheet" href="../../layui/css/layui.css" media="all" />
 </head>
 <body>
     <div>
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div>
                 <header style="height: 100%">
                     <div align="left">
 	                    <table style="width: 100%">
 	                   		<tr>
 	                   			<td>
-									<form class="form-inline" onsubmit="return false">
+		                   			<form class="form-inline" onsubmit="return false">
 										<div class="form-group">
-											用户名：
-											<input id="username" type="text" class="form-control" placeholder="用户名">
-											昵称：
-											<input id="nickname" type="text" class="form-control" placeholder="昵称">
-											状态：
-											<select class="form-control input-sm" id="status">
-											</select>
-											<button id="searchBt" class="layui-btn layui-btn-sm" permission="sys:user:query"><i class="layui-icon">&#xe615;</i>搜索</button>
+											type：
+											<input id="type" type="text" class="form-control" placeholder="type">
+											<button id="searchBt" class="layui-btn layui-btn-sm" permission="dict:query"><i class="layui-icon">&#xe615;</i>搜索</button>
 										</div>
 									</form>
-								</td>
-								<td align="right">
-	                   				<button class="layui-btn layui-btn-sm" onclick="location.href='addUser.html'" permission="sys:user:add">
+	                   			</td>
+	                   			<td align="right">
+	                   				<button class="layui-btn layui-btn-sm" onclick="location.href='addDict.html'" permission="dict:add">
                                       <i class="layui-icon">&#xe608;</i> 添加
                                     </button>
 	                   			</td>
@@ -45,11 +41,12 @@
                                 <tr>
                                 </tr>                       
                                 <tr>
-                                    <th>username</th>
-                                    <th>昵称</th>
-                                    <th>手机号</th>
-                                    <th>邮箱</th>
-									<th>状态</th>     
+									<th>id</th>
+									<th>type</th>
+									<th>k</th>
+									<th>val</th>
+									<th>createTime</th>
+									<th>updateTime</th>
 									<th>操作</th>
                                 </tr>
                             </thead>
@@ -58,6 +55,7 @@
                         </table>
                     </div>
                 </div>
+            </div>
         </div>
     </div>
 </body>
@@ -67,15 +65,9 @@
 <script type="text/javascript" src="../../js/jq.js"></script>
 <script type="text/javascript" src="../../js/plugin/datatables/jquery.dataTables.min.js"></script>
 <script type="text/javascript" src="../../js/plugin/datatables/dataTables.bootstrap.min.js"></script>
-<script type="text/javascript" src="../../js/my/permission.js"></script>
 <script type="text/javascript" src="../../layui/layui.js"></script>
-<script type="text/javascript" src="../../js/dict.js"></script>
+<script type="text/javascript" src="../../js/my/permission.js"></script>
 <script type="text/javascript">
-layui.use([ 'layer' ], function() {
-	var layer = layui.layer;
-});
-var userStatus = showDictSelect("status", "userStatus", true);
-
 var pers = checkPermission();
 
 var example;
@@ -89,13 +81,11 @@ function init(){
                 "url": "/js/plugin/datatables/Chinese.lang"
             },
         	"ajax": {
-        		"url" : "/users",
+        		"url" : "/dicts",
         		"type":"get",
         		"data":function(d){
-    				d.username = $('#username').val();
-    				d.nickname = $('#nickname').val();
-    				d.status = $('#status').val();
-        		},
+    				d.type = $("#type").val();
+    			},
     			"error":function(xhr, textStatus, errorThrown){
     				var msg = xhr.responseText;
     				console.log(msg);
@@ -119,32 +109,49 @@ function init(){
         	},
         	"dom": "<'dt-toolbar'r>t<'dt-toolbar-footer'<'col-sm-10 col-xs-12 hidden-xs'i><'col-xs-12 col-sm-10' p v>>",	
             "columns": [
-                { "data": "username", "defaultContent": ""},
-                { "data": "nickname", "defaultContent": ""},
-                { "data": "phone", "defaultContent": ""},
-                { "data": "email", "defaultContent": ""},
-                {
-                	"data": "status",
-                	"defaultContent": "",
-                	"render": function (data, type, row) {
-                    	return userStatus[data];
-                  	}
-                },
-                {
-                	"data": "", 
-                	"defaultContent": "",
-                	"orderable":false,
-                	"render": function (data, type, row) {
-                		var id = row['id'];
-                		var href = "updateUser.html?id=" + id;
-                		var edit = buttonEdit(href, "sys:user:add", pers);
-                        return edit;
-                  }
-                },
+				{"data" : "id", "defaultContent" : ""},
+				{"data" : "type", "defaultContent" : ""},
+				{"data" : "k", "defaultContent" : ""},
+				{"data" : "val", "defaultContent" : ""},
+				{"data" : "createTime", "defaultContent" : ""},
+				{"data" : "updateTime", "defaultContent" : ""},
+				{ 
+					"data": "", 
+					"defaultContent": "",
+					"orderable":false,
+			        "render": function (data, type, row) {
+             		           var id = row['id'];
+             		           var href = "updateDict.html?id=" + id;
+                                var edit = buttonEdit(href, "dict:add", pers);
+             		            var del = buttonDel(id, "dict:del", pers);
+                                return edit + del;
+               	            }		
+				},
                 
             ],
-            "order": [[ 0, "desc" ],[1, "asc"]]
+           "order": [[ 0, "asc" ]]
         } );
+}
+
+layui.use('layer', function(){
+    var layer = layui.layer;
+});
+
+function del(id){
+	layer.confirm('确定要删除吗？', {
+        btn : [ '确定', '取消' ]
+    }, function() {
+    	$.ajax({
+            type : 'delete',
+            url : '/dicts/'+id,
+            success : function(data) {
+                example.ajax.reload();
+                layer.msg("删除成功");
+            }
+        });
+        
+        layer.close(1);
+    });
 }
 
 $("#searchBt").click(function(){
