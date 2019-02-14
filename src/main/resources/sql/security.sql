@@ -11,7 +11,7 @@
  Target Server Version : 50724
  File Encoding         : 65001
 
- Date: 14/02/2019 15:59:02
+ Date: 14/02/2019 16:12:11
 */
 
 SET NAMES utf8mb4;
@@ -70,8 +70,8 @@ CREATE TABLE `sys_role`  (
 -- ----------------------------
 -- Records of sys_role
 -- ----------------------------
-INSERT INTO `sys_role` VALUES (1, 'ADMIN', '管理员', '2017-05-01 13:25:39', '2017-10-05 21:59:18');
-INSERT INTO `sys_role` VALUES (2, 'USER', '', '2017-08-01 21:47:31', '2017-10-05 21:59:26');
+INSERT INTO `sys_role` VALUES (1, 'ADMIN', '???', '2017-05-01 13:25:39', '2019-02-14 16:09:04');
+INSERT INTO `sys_role` VALUES (2, 'USER', '', '2017-08-01 21:47:31', '2019-02-14 16:09:44');
 
 -- ----------------------------
 -- Table structure for sys_role_permission
@@ -100,46 +100,18 @@ INSERT INTO `sys_role_permission` VALUES (1, 12);
 INSERT INTO `sys_role_permission` VALUES (1, 13);
 INSERT INTO `sys_role_permission` VALUES (1, 14);
 INSERT INTO `sys_role_permission` VALUES (1, 15);
-INSERT INTO `sys_role_permission` VALUES (1, 17);
-INSERT INTO `sys_role_permission` VALUES (1, 18);
 INSERT INTO `sys_role_permission` VALUES (1, 19);
 INSERT INTO `sys_role_permission` VALUES (1, 20);
-INSERT INTO `sys_role_permission` VALUES (1, 23);
-INSERT INTO `sys_role_permission` VALUES (1, 24);
-INSERT INTO `sys_role_permission` VALUES (1, 25);
-INSERT INTO `sys_role_permission` VALUES (1, 28);
-INSERT INTO `sys_role_permission` VALUES (1, 29);
-INSERT INTO `sys_role_permission` VALUES (1, 31);
-INSERT INTO `sys_role_permission` VALUES (1, 32);
-INSERT INTO `sys_role_permission` VALUES (1, 33);
-INSERT INTO `sys_role_permission` VALUES (1, 35);
-INSERT INTO `sys_role_permission` VALUES (1, 36);
-INSERT INTO `sys_role_permission` VALUES (1, 38);
-INSERT INTO `sys_role_permission` VALUES (1, 39);
-INSERT INTO `sys_role_permission` VALUES (1, 40);
 INSERT INTO `sys_role_permission` VALUES (2, 1);
 INSERT INTO `sys_role_permission` VALUES (2, 2);
 INSERT INTO `sys_role_permission` VALUES (2, 3);
-INSERT INTO `sys_role_permission` VALUES (2, 4);
 INSERT INTO `sys_role_permission` VALUES (2, 6);
 INSERT INTO `sys_role_permission` VALUES (2, 7);
 INSERT INTO `sys_role_permission` VALUES (2, 8);
 INSERT INTO `sys_role_permission` VALUES (2, 9);
-INSERT INTO `sys_role_permission` VALUES (2, 10);
-INSERT INTO `sys_role_permission` VALUES (2, 11);
 INSERT INTO `sys_role_permission` VALUES (2, 12);
 INSERT INTO `sys_role_permission` VALUES (2, 13);
-INSERT INTO `sys_role_permission` VALUES (2, 14);
-INSERT INTO `sys_role_permission` VALUES (2, 15);
-INSERT INTO `sys_role_permission` VALUES (2, 17);
-INSERT INTO `sys_role_permission` VALUES (2, 18);
 INSERT INTO `sys_role_permission` VALUES (2, 19);
-INSERT INTO `sys_role_permission` VALUES (2, 20);
-INSERT INTO `sys_role_permission` VALUES (2, 23);
-INSERT INTO `sys_role_permission` VALUES (2, 24);
-INSERT INTO `sys_role_permission` VALUES (2, 25);
-INSERT INTO `sys_role_permission` VALUES (2, 31);
-INSERT INTO `sys_role_permission` VALUES (2, 36);
 
 -- ----------------------------
 -- Table structure for sys_role_user
@@ -208,10 +180,6 @@ INSERT INTO `t_dict` VALUES (2, 'sex', '1', '男', '2017-11-17 10:03:46', '2017-
 INSERT INTO `t_dict` VALUES (3, 'userStatus', '0', '无效', '2017-11-17 16:26:06', '2017-11-17 16:26:09');
 INSERT INTO `t_dict` VALUES (4, 'userStatus', '1', '正常', '2017-11-17 16:26:06', '2017-11-17 16:26:09');
 INSERT INTO `t_dict` VALUES (5, 'userStatus', '2', '锁定', '2017-11-17 16:26:06', '2017-11-17 16:26:09');
-INSERT INTO `t_dict` VALUES (6, 'noticeStatus', '0', '草稿', '2017-11-17 16:26:06', '2017-11-17 16:26:09');
-INSERT INTO `t_dict` VALUES (7, 'noticeStatus', '1', '发布', '2017-11-17 16:26:06', '2017-11-17 16:26:09');
-INSERT INTO `t_dict` VALUES (8, 'isRead', '0', '未读', '2017-11-17 16:26:06', '2017-11-17 16:26:09');
-INSERT INTO `t_dict` VALUES (9, 'isRead', '1', '已读', '2017-11-17 16:26:06', '2017-11-17 16:26:09');
 
 -- ----------------------------
 -- Table structure for t_token
