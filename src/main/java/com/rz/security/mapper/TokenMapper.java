@@ -1,10 +1,7 @@
 package com.rz.security.mapper;
 
 import com.rz.security.pojo.Token;
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.*;
 
 /**
  * Created with IntelliJ IDEA.
@@ -13,6 +10,7 @@ import org.apache.ibatis.annotations.Update;
  * Date: 2019-01-29
  * Time: 下午3:50
  */
+@Mapper
 public interface TokenMapper {
 
     @Insert("insert into t_token(id, val, expireTime, createTime, updateTime) values (#{id}, #{val}, #{expireTime}, #{createTime}, #{updateTime})")

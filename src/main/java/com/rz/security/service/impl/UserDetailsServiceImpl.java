@@ -4,6 +4,7 @@ import com.rz.security.dto.LoginUser;
 import com.rz.security.mapper.*;
 import com.rz.security.pojo.Permission;
 import com.rz.security.pojo.User;
+import com.rz.security.service.IUserService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
@@ -28,7 +29,7 @@ import java.util.List;
 public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Autowired
-    private UserMapper userMapper;
+    private IUserService userService;
 
     @Autowired
     private PermissionMapper permissionMapper;
@@ -41,7 +42,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
      */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userMapper.selectByName(username);
+        User user = userService.findUser(username);
         if(user == null){
             throw new AuthenticationCredentialsNotFoundException("用户名不存在");
         } else if(user.getStatus() == User.Status.LOCKED){

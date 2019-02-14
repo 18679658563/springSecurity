@@ -14,7 +14,7 @@
         <include refid="where" />
     </select>
 
-    <select id="selectByRole" resultType="Role">
+    <select id="selectByRole" resultType="com.rz.security.pojo.Role">
         select * from sys_role t
         <include refid="where" />
         ${params.orderBy}

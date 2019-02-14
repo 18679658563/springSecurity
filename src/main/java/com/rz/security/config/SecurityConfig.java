@@ -1,8 +1,6 @@
 package com.rz.security.config;
 
 import com.rz.security.filter.TokenFilter;
-import com.rz.security.service.impl.UserDetailsServiceImpl;
-import com.rz.security.tools.MD5Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -12,7 +10,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
@@ -70,6 +67,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.formLogin().loginProcessingUrl("/login")
                 .successHandler(authenticationSuccessHandler).failureHandler(authenticationFailureHandler).and()
                 .exceptionHandling().authenticationEntryPoint(authenticationEntryPoint);
+        http.logout().logoutUrl("/logout").logoutSuccessHandler(logoutSuccessHandler);
         //解决不允许显示在iframe的问题
         http.headers().frameOptions().disable();
         http.headers().cacheControl();

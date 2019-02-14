@@ -13,6 +13,7 @@ import java.util.Set;
  * Date: 2018-12-28
  * Time: 上午9:17
  */
+@Mapper
 public interface PermissionMapper {
 
     /**
@@ -42,7 +43,7 @@ public interface PermissionMapper {
      * @param userId
      * @return
      */
-    @Select("select distinct p.* from sys_permission p inner join sys_role_permission rp om p.id = rp.permissionId inner join sys_role_user ru on ru.roleId = rp.roleId where ru.userId = #{userId} order by p.sort")
+    @Select("select distinct p.* from sys_permission p inner join sys_role_permission rp on p.id = rp.permissionId inner join sys_role_user ru on ru.roleId = rp.roleId where ru.userId = #{userId} order by p.sort")
     List<Permission> selectByUserId(Long userId);
 
     /**

@@ -21,7 +21,7 @@
         <include refid="where" />
     </select>
 
-    <select id="selectByUser" resultType="User">
+    <select id="selectByUser" resultType="com.rz.security.pojo.User">
         select * from sys_user t
         <include refid="where" />
         ${params.orderBy}

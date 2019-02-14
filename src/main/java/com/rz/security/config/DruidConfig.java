@@ -16,8 +16,9 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  * Date: 2018-12-21
  * Time: 下午4:02
  */
-@Configuration
-@EnableTransactionManagement
+//@Configuration
+//@EnableTransactionManagement
+@Deprecated
 public class DruidConfig {
 
     @Value("${spring.datasource.url}")
@@ -32,16 +33,16 @@ public class DruidConfig {
     @Value("${spring.datasource.driver-class-name}")
     private String driverClassName;
 
-    @Value("${spring.datasource.dbcp2.initial-size}")
+    @Value("${spring.datasource.initial-size}")
     private int initialSize;
 
-    @Value("${spring.datasource.dbcp2.min-idle}")
+    @Value("${spring.datasource.min-idle}")
     private int minIdle;
 
-    @Value("${spring.datasource.dbcp2.max-idle}")
+    @Value("${spring.datasource.max-idle}")
     private int maxIdle;
 
-    @Value("${spring.datasource.dbcp2.max-wait-millis}")
+    @Value("${spring.datasource.max-wait-millis}")
     private int maxWaitMillis;
 
     @Bean

@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Primary;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
@@ -31,6 +32,7 @@ import java.util.concurrent.TimeUnit;
  * Time: 上午11:17
  */
 @Service
+@Primary
 public class TokenServiceJWTImpl implements ITokenService {
 
     private static final Logger log = LoggerFactory.getLogger("adminLogger");
@@ -84,7 +86,7 @@ public class TokenServiceJWTImpl implements ITokenService {
     public LoginUser getLoginUser(String token) {
         String uuid = getUUIDFromJWT(token);
         if(StringUtils.isNotEmpty(uuid)){
-            return redisTemplate.boundValueOps(uuid).get();
+            return redisTemplate.boundValueOps(getTokenKey(uuid)).get();
         }
         return null;
     }
@@ -94,7 +96,7 @@ public class TokenServiceJWTImpl implements ITokenService {
         String uuid = getUUIDFromJWT(token);
         if(StringUtils.isNotEmpty(uuid)){
             String key = getTokenKey(uuid);
-            LoginUser loginUser = redisTemplate.boundValueOps(key).get();
+            LoginUser loginUser = redisTemplate.opsForValue().get(key);
             if(loginUser != null){
                 redisTemplate.delete(key);
                 return true;

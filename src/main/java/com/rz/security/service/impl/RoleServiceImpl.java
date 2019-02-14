@@ -42,8 +42,6 @@ public class RoleServiceImpl implements IRoleService {
             throw new IllegalArgumentException(role.getName() + "已存在");
         }
         if(roleDto.getId() != null){
-            //修改
-
             //修改角色信息 删除旧中间表信息，新增新的关系
             roleMapper.update(role);
             roleMapper.deleteRolePermission(role.getId());

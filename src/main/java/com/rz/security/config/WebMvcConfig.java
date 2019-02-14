@@ -24,7 +24,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
      */
     @Bean
     public WebMvcConfigurer corsConfigurer(){
-        return new WebMvcConfig(){
+        return new WebMvcConfigurer(){
             @Override
             public void addCorsMappings(CorsRegistry registry){
                 registry.addMapping("/**").allowedMethods("*");
