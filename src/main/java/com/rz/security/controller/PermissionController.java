@@ -93,7 +93,6 @@ public class PermissionController {
     }
 
     @GetMapping("/all")
-    @ApiOperation(value = "所有菜单")
     @PreAuthorize("hasAuthority('sys:menu:query')")
     public JSONArray permissionsAll() {
         List<Permission> permissionsAll = permissionMapper.selectAll();
@@ -103,7 +102,6 @@ public class PermissionController {
     }
 
     @GetMapping("/parents")
-    @ApiOperation(value = "一级菜单")
     @PreAuthorize("hasAuthority('sys:menu:query')")
     public List<Permission> parentMenu() {
         List<Permission> parents = permissionMapper.selectByParentId();
@@ -132,28 +130,24 @@ public class PermissionController {
     }
 
     @GetMapping(params = "roleId")
-    @ApiOperation(value = "根据角色id获取权限")
     @PreAuthorize("hasAnyAuthority('sys:menu:query','sys:role:query')")
     public List<Permission> listByRoleId(Long roleId) {
         return permissionMapper.selectByRoleId(roleId);
     }
 
     @PostMapping
-    @ApiOperation(value = "保存菜单")
     @PreAuthorize("hasAuthority('sys:menu:add')")
     public void save(@RequestBody Permission permission) {
         permissionMapper.insertPermission(permission);
     }
 
     @GetMapping("/{id}")
-    @ApiOperation(value = "根据菜单id获取菜单")
     @PreAuthorize("hasAuthority('sys:menu:query')")
     public Permission get(@PathVariable Long id) {
         return permissionMapper.selectById(id);
     }
 
     @PutMapping
-    @ApiOperation(value = "修改菜单")
     @PreAuthorize("hasAuthority('sys:menu:add')")
     public void update(@RequestBody Permission permission) {
         permissionService.update(permission);
@@ -175,7 +169,6 @@ public class PermissionController {
     }
 
     @DeleteMapping("/{id}")
-    @ApiOperation(value = "删除菜单")
     @PreAuthorize("hasAuthority('sys:menu:del')")
     public void delete(@PathVariable Long id) {
         permissionService.delete(id);

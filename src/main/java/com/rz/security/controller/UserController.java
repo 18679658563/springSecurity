@@ -31,8 +31,6 @@ import java.util.List;
 @RequestMapping("/users")
 public class UserController {
 
-    private static final Logger log = LoggerFactory.getLogger("adminLogger");
-
     @Autowired
     private IUserService userService;
     @Autowired
@@ -62,7 +60,6 @@ public class UserController {
         BeanUtils.copyProperties(user, userDto);
         userDto.setHeadImgUrl(headImgUrl);
         userService.updateUser(userDto);
-        log.debug("{}修改了头像", user.getUsername());
     }
 
     @PutMapping("/{username}")
@@ -72,7 +69,6 @@ public class UserController {
     }
 
     @GetMapping
-    @ApiOperation(value = "用户列表")
     @PreAuthorize("hasAuthority('sys:user:query')")
     public PageTableResponse listUsers(PageTableRequest request) {
         return new PageTableHandler(new PageTableHandler.CountHandler() {
@@ -92,13 +88,11 @@ public class UserController {
         }).handle(request);
     }
 
-    @ApiOperation(value = "当前登录用户")
     @GetMapping("/current")
     public User currentUser() {
         return UserUtil.getLoginUser();
     }
 
-    @ApiOperation(value = "根据用户id获取用户")
     @GetMapping("/{id}")
     @PreAuthorize("hasAuthority('sys:user:query')")
     public User user(@PathVariable Long id) {

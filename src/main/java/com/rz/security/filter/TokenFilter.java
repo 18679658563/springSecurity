@@ -40,6 +40,7 @@ public class TokenFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {
         String token = getToken(httpServletRequest);
+        System.out.println("\n\n\n"+token+"111\n\n\n");
         if(StringUtils.isNotBlank(token)){
             LoginUser loginUser = tokenService.getLoginUser(token);
             if(loginUser != null){
