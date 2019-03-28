@@ -101,23 +101,6 @@ function showLoginInfo(){
 	});
 }
 
-showUnreadNotice();
-function showUnreadNotice(){
-	$.ajax({
-		type : 'get',
-		url : '/notices/count-unread',
-		success : function(data) {
-			$("[unreadNotice]").each(function(){
-				if(data>0){
-					$(this).html("<span class='layui-badge'>"+data+"</span>");
-				}else{
-					$(this).html("");
-				}
-			});
-			
-		}
-	});
-}
 
 function logout(){
 	$.ajax({

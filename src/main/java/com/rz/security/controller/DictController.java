@@ -22,7 +22,6 @@ public class DictController {
 
 	@PreAuthorize("hasAuthority('dict:add')")
 	@PostMapping
-	@ApiOperation(value = "保存")
 	public Dict save(@RequestBody Dict dict) {
 		Dict d = dictDao.getByTypeAndK(dict.getType(), dict.getK());
 		if (d != null) {
@@ -34,14 +33,12 @@ public class DictController {
 	}
 
 	@GetMapping("/{id}")
-	@ApiOperation(value = "根据id获取")
 	public Dict get(@PathVariable Long id) {
 		return dictDao.getById(id);
 	}
 
 	@PreAuthorize("hasAuthority('dict:add')")
 	@PutMapping
-	@ApiOperation(value = "修改")
 	public Dict update(@RequestBody Dict dict) {
 		dictDao.update(dict);
 
@@ -50,7 +47,6 @@ public class DictController {
 
 	@PreAuthorize("hasAuthority('dict:query')")
 	@GetMapping(params = { "start", "length" })
-	@ApiOperation(value = "列表")
 	public PageTableResponse list(PageTableRequest request) {
 		return new PageTableHandler(new PageTableHandler.CountHandler() {
 
@@ -69,7 +65,6 @@ public class DictController {
 
 	@PreAuthorize("hasAuthority('dict:del')")
 	@DeleteMapping("/{id}")
-	@ApiOperation(value = "删除")
 	public void delete(@PathVariable Long id) {
 		dictDao.delete(id);
 	}

@@ -6,7 +6,7 @@ spring:
     driver-class-name: com.mysql.jdbc.Driver
     username: root
     password: 123456
-    url: jdbc:mysql://localhost:3306/security
+    url: jdbc:mysql://localhost:3306/security?characterEncoding=utf8
     druid:
       initialSize: 5
       minIdle: 5
@@ -24,17 +24,16 @@ spring:
       connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
       stat-view-servlet:
         allow: 127.0.0.1
+  #对date日期格式对象在返回前端json格式数据的时候，系统要求转换为 yyyy-MM-dd HH:mm:ss
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
     joda-date-time-format: yyyy-MM-dd HH:mm:ss
-    time-zone: GMT+8
+    time-zone: GMT+8 #配置时区，不然时间会早8个小时
+  #文件上传
   servlet:
     multipart:
       max-file-size: 100MB
       max-request-size: 100MB
-    mvc:
-      servlet:
-        load-on-startup: 1
   redis:
     host: localhost
     port: 6379

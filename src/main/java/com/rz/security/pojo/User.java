@@ -28,7 +28,7 @@ public class User extends BaseEntity<Long>{
     private String email;
 
     @JsonFormat(pattern = "yyyy-MM-dd")
-    private Date brithday;
+    private Date birthday;
 
     private Integer sex;
 

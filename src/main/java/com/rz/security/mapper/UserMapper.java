@@ -76,7 +76,7 @@ public interface UserMapper {
     int insertUserRoles(@Param("userId") Long userId, @Param("roleIds") List<Long> roleIds);
 
     /**
-     * 根据天剑修改用户信息
+     * 根据修改用户信息
      * @param user
      * @return
      */

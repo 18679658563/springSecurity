@@ -28,7 +28,6 @@ import java.util.stream.Collectors;
  * Date: 2019-01-30
  * Time: 下午3:33
  */
-@Api(tags = "权限")
 @RestController
 @RequestMapping("/permissions")
 public class PermissionController {
@@ -38,7 +37,6 @@ public class PermissionController {
     @Autowired
     private IPermissionService permissionService;
 
-    @ApiOperation(value = "当前登录用户拥有的权限")
     @GetMapping("/current")
     public List<Permission> permissionsCurrent() {
         LoginUser loginUser = UserUtil.getLoginUser();
@@ -86,7 +84,6 @@ public class PermissionController {
     }
 
     @GetMapping
-    @ApiOperation(value = "菜单列表")
     @PreAuthorize("hasAuthority('sys:menu:query')")
     public List<Permission> permissionsList() {
         List<Permission> permissionsAll = permissionMapper.selectAll();

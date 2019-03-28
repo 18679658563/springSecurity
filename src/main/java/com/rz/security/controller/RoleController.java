@@ -23,7 +23,6 @@ import java.util.List;
  * Date: 2019-01-30
  * Time: 下午4:27
  */
-@Api(tags = "角色")
 @RestController
 @RequestMapping("/roles")
 public class RoleController {
@@ -34,14 +33,12 @@ public class RoleController {
     private RoleMapper roleMapper;
 
     @PostMapping
-    @ApiOperation(value = "保存角色")
     @PreAuthorize("hasAuthority('sys:role:add')")
     public void saveRole(@RequestBody RoleDto roleDto) {
         roleService.save(roleDto);
     }
 
     @GetMapping
-    @ApiOperation(value = "角色列表")
     @PreAuthorize("hasAuthority('sys:role:query')")
     public PageTableResponse listRoles(PageTableRequest request) {
         return new PageTableHandler(new PageTableHandler.CountHandler() {
@@ -61,28 +58,24 @@ public class RoleController {
     }
 
     @GetMapping("/{id}")
-    @ApiOperation(value = "根据id获取角色")
     @PreAuthorize("hasAuthority('sys:role:query')")
     public Role get(@PathVariable Long id) {
         return roleMapper.selectById(id);
     }
 
     @GetMapping("/all")
-    @ApiOperation(value = "所有角色")
     @PreAuthorize("hasAnyAuthority('sys:user:query','sys:role:query')")
     public List<Role> roles() {
         return roleMapper.selectByRole(Maps.newHashMap(), null, null);
     }
 
     @GetMapping(params = "userId")
-    @ApiOperation(value = "根据用户id获取拥有的角色")
     @PreAuthorize("hasAnyAuthority('sys:user:query','sys:role:query')")
     public List<Role> roles(Long userId) {
         return roleMapper.selectByUserId(userId);
     }
 
     @DeleteMapping("/{id}")
-    @ApiOperation(value = "删除角色")
     @PreAuthorize("hasAuthority('sys:role:del')")
     public void delete(@PathVariable Long id) {
         roleService.delete(id);

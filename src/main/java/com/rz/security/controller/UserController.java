@@ -27,7 +27,6 @@ import java.util.List;
  * Date: 2018-12-30
  * Time: 下午14:30
  */
-@Api(tags = "用户")
 @RestController
 @RequestMapping("/users")
 public class UserController {
@@ -40,7 +39,6 @@ public class UserController {
     private UserMapper userMapper;
 
     @PostMapping
-    @ApiOperation(value = "保存用户")
     @PreAuthorize("hasAuthority('sys:user:add')")
     public User saveUser(@RequestBody UserDto userDto) {
         User u = userService.findUser(userDto.getUsername());
@@ -52,14 +50,12 @@ public class UserController {
     }
 
     @PutMapping
-    @ApiOperation(value = "修改用户")
     @PreAuthorize("hasAuthority('sys:user:add')")
     public User updateUser(@RequestBody UserDto userDto) {
         return userService.updateUser(userDto);
     }
 
     @PutMapping(params = "headImgUrl")
-    @ApiOperation(value = "修改头像")
     public void updateHeadImgUrl(String headImgUrl) {
         User user = UserUtil.getLoginUser();
         UserDto userDto = new UserDto();
@@ -70,7 +66,6 @@ public class UserController {
     }
 
     @PutMapping("/{username}")
-    @ApiOperation(value = "修改密码")
     @PreAuthorize("hasAuthority('sys:user:password')")
     public void changePassword(@PathVariable String username, String oldPassword, String newPassword) {
         userService.changePassword(username, oldPassword, newPassword);
@@ -91,6 +86,7 @@ public class UserController {
             @Override
             public List<User> list(PageTableRequest request) {
                 List<User> list = userMapper.selectByUser(request.getParams(), request.getOffset(), request.getLimit());
+                System.out.println();
                 return list;
             }
         }).handle(request);
