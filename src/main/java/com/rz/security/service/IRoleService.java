@@ -14,5 +14,5 @@ public interface IRoleService {
 
     void save(RoleDto roleDto);
 
-    void delete(Long id);
+    void delete(String id);
 }

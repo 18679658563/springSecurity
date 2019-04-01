@@ -59,7 +59,7 @@ public class RoleController {
 
     @GetMapping("/{id}")
     @PreAuthorize("hasAuthority('sys:role:query')")
-    public Role get(@PathVariable Long id) {
+    public Role get(@PathVariable String id) {
         return roleMapper.selectById(id);
     }
 
@@ -71,13 +71,13 @@ public class RoleController {
 
     @GetMapping(params = "userId")
     @PreAuthorize("hasAnyAuthority('sys:user:query','sys:role:query')")
-    public List<Role> roles(Long userId) {
+    public List<Role> roles(String userId) {
         return roleMapper.selectByUserId(userId);
     }
 
     @DeleteMapping("/{id}")
     @PreAuthorize("hasAuthority('sys:role:del')")
-    public void delete(@PathVariable Long id) {
+    public void delete(@PathVariable String id) {
         roleService.delete(id);
     }
 }

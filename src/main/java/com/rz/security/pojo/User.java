@@ -9,7 +9,7 @@ import java.util.Date;
  * 用户类
  */
 @Data
-public class User extends BaseEntity<Long>{
+public class User extends BaseEntity<String>{
 
     private static final long serialVersionUID = -6525908145032868837L;
 

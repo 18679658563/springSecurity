@@ -17,6 +17,6 @@ public class UserDto extends User {
 
     private static final long serialVersionUID = -184009306207076712L;
 
-    private List<Long> roleIds;
+    private List<String> roleIds;
 
 }

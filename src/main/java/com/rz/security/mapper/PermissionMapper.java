@@ -22,7 +22,7 @@ public interface PermissionMapper {
      * @return
      */
     @Select("select * from sys_permission t where t.id = #{id}")
-    Permission selectById(Long id);
+    Permission selectById(String id);
 
     /**
      *  查询所有权限信息
@@ -44,7 +44,7 @@ public interface PermissionMapper {
      * @return
      */
     @Select("select distinct p.* from sys_permission p inner join sys_role_permission rp on p.id = rp.permissionId inner join sys_role_user ru on ru.roleId = rp.roleId where ru.userId = #{userId} order by p.sort")
-    List<Permission> selectByUserId(Long userId);
+    List<Permission> selectByUserId(String userId);
 
     /**
      * 根据角色id查询权限信息
@@ -52,14 +52,14 @@ public interface PermissionMapper {
      * @return
      */
     @Select("select p.* from sys_permission p inner join sys_role_permission rp on p.id = rp.permissionId where rp.roleId = #{roleId} order by p.sort")
-    List<Permission> selectByRoleId(Long roleId);
+    List<Permission> selectByRoleId(String roleId);
 
     /**
      * 添加权限
      * @param permission
      * @return
      */
-    @Insert("insert into sys_permission(parentId, name, css, href, type, permission, sort) values(#{parentId}, #{name}, #{css}, #{href}, #{type}, #{permission}, #{sort})")
+    @Insert("insert into sys_permission(id,parentId, name, css, href, type, permission, sort) values(#{id},#{parentId}, #{name}, #{css}, #{href}, #{type}, #{permission}, #{sort})")
     int insertPermission(Permission permission);
 
     /**
@@ -76,7 +76,7 @@ public interface PermissionMapper {
      * @return
      */
     @Delete("delete from sys_permission where id = #{id}")
-    int deleteById(Long id);
+    int deleteById(String id);
 
     /**
      * 删除子菜单
@@ -84,7 +84,7 @@ public interface PermissionMapper {
      * @return
      */
     @Delete("delete from sys_permission where parentId = #{id}")
-    int deleteByParentId(Long id);
+    int deleteByParentId(String id);
 
     /**
      * 删除中间表信息
@@ -92,7 +92,7 @@ public interface PermissionMapper {
      * @return
      */
     @Delete("delete from sys_role_permission where permissionId = #{permissionId}")
-    int deleteRolePermission(Long permissionId);
+    int deleteRolePermission(String permissionId);
 
     /**
      * 根据权限id查询所有拥有此权限的用户
@@ -100,5 +100,5 @@ public interface PermissionMapper {
      * @return
      */
     @Select("select ru.userId from sys_role_permission rp inner join sys_role_user ru on ru.roleId = rp.roleId where rp.permissionId = #{permissionId}")
-    Set<Long> selectUserIds(Long permissionId);
+    Set<Long> selectUserIds(String permissionId);
 }

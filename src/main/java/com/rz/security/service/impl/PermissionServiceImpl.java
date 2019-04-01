@@ -49,7 +49,7 @@ public class PermissionServiceImpl implements IPermissionService {
      */
     @Transactional
     @Override
-    public void delete(Long id) {
+    public void delete(String id) {
         permissionMapper.deleteRolePermission(id);
         permissionMapper.deleteByParentId(id);
         permissionMapper.deleteById(id);

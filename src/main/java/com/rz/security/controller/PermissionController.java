@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 /**
@@ -42,7 +43,7 @@ public class PermissionController {
         LoginUser loginUser = UserUtil.getLoginUser();
         List<Permission> list = loginUser.getPermissions();
         final List<Permission> permissions = list.stream().filter(l -> l.getType().equals(1)).collect(Collectors.toList());
-        List<Permission> firstLevel = permissions.stream().filter(p -> p.getParentId().equals(0L)).collect(Collectors.toList());
+        List<Permission> firstLevel = permissions.stream().filter(p -> p.getParentId().equals("0")).collect(Collectors.toList());
         firstLevel.parallelStream().forEach(p -> {
             setChild(p, permissions);
         });
@@ -72,7 +73,7 @@ public class PermissionController {
      * @param permissionsAll
      * @param list
      */
-    private void setPermissionsList(Long pId, List<Permission> permissionsAll, List<Permission> list) {
+    private void setPermissionsList(String pId, List<Permission> permissionsAll, List<Permission> list) {
         for (Permission per : permissionsAll) {
             if (per.getParentId().equals(pId)) {
                 list.add(per);
@@ -88,7 +89,7 @@ public class PermissionController {
     public List<Permission> permissionsList() {
         List<Permission> permissionsAll = permissionMapper.selectAll();
         List<Permission> list = Lists.newArrayList();
-        setPermissionsList(0L, permissionsAll, list);
+        setPermissionsList("0", permissionsAll, list);
         return list;
     }
 
@@ -97,7 +98,7 @@ public class PermissionController {
     public JSONArray permissionsAll() {
         List<Permission> permissionsAll = permissionMapper.selectAll();
         JSONArray array = new JSONArray();
-        setPermissionsTree(0L, permissionsAll, array);
+        setPermissionsTree("", permissionsAll, array);
         return array;
     }
 
@@ -114,7 +115,7 @@ public class PermissionController {
      * @param permissionsAll
      * @param array
      */
-    private void setPermissionsTree(Long pId, List<Permission> permissionsAll, JSONArray array) {
+    private void setPermissionsTree(String pId, List<Permission> permissionsAll, JSONArray array) {
         for (Permission per : permissionsAll) {
             if (per.getParentId().equals(pId)) {
                 String string = JSONObject.toJSONString(per);
@@ -131,19 +132,20 @@ public class PermissionController {
 
     @GetMapping(params = "roleId")
     @PreAuthorize("hasAnyAuthority('sys:menu:query','sys:role:query')")
-    public List<Permission> listByRoleId(Long roleId) {
+    public List<Permission> listByRoleId(String roleId) {
         return permissionMapper.selectByRoleId(roleId);
     }
 
     @PostMapping
     @PreAuthorize("hasAuthority('sys:menu:add')")
     public void save(@RequestBody Permission permission) {
+        permission.setId(UUID.randomUUID().toString().replace("-",""));
         permissionMapper.insertPermission(permission);
     }
 
     @GetMapping("/{id}")
     @PreAuthorize("hasAuthority('sys:menu:query')")
-    public Permission get(@PathVariable Long id) {
+    public Permission get(@PathVariable String id) {
         return permissionMapper.selectById(id);
     }
 
@@ -170,7 +172,7 @@ public class PermissionController {
 
     @DeleteMapping("/{id}")
     @PreAuthorize("hasAuthority('sys:menu:del')")
-    public void delete(@PathVariable Long id) {
+    public void delete(@PathVariable String id) {
         permissionService.delete(id);
     }
 }

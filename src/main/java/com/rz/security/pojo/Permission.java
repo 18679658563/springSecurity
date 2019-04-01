@@ -13,11 +13,11 @@ import java.util.List;
  * Time: 上午9:15
  */
 @Data
-public class Permission extends BaseEntity<Long> {
+public class Permission extends BaseEntity<String> {
 
     private static final long serialVersionUID = 6180869216498363919L;
 
-    private Long parentId;
+    private String parentId;
 
     private String name;
 

@@ -15,6 +15,6 @@ public interface IPermissionService {
 
     void update(Permission permission);
 
-    void delete(Long id);
+    void delete(String id);
 
 }

@@ -16,7 +16,7 @@ public interface RoleMapper {
      * @return
      */
     @Select("select * from sys_role t where t.id = #{id}")
-    Role selectById(Long id);
+    Role selectById(String id);
 
     /**
      * 根据条件查询总数目
@@ -49,7 +49,7 @@ public interface RoleMapper {
      * @return
      */
     @Select("select * from sys_role r inner join sys_role_user ru on ru.roleId = r.id where ru.userId = #{userId}")
-    List<Role> selectByUserId(Long userId);
+    List<Role> selectByUserId(String userId);
 
     /**
      * 添加角色
@@ -57,7 +57,7 @@ public interface RoleMapper {
      * @return
      */
     @Options(useGeneratedKeys = true, keyProperty = "id")
-    @Insert("insert into sys_role(name, description, createTime, updateTime) values(#{name}, #{description}, now(),now())")
+    @Insert("insert into sys_role(id, name, description, createTime, updateTime) values(#{id},#{name}, #{description}, now(),now())")
     int insertRole(Role role);
 
     /**
@@ -74,7 +74,7 @@ public interface RoleMapper {
      * @return
      */
     @Delete("delete from sys_role_permission where roleId = #{roleId}")
-    int deleteRolePermission(Long roleId);
+    int deleteRolePermission(String roleId);
 
     /**
      * 批量增加角色和权限的关系
@@ -82,7 +82,7 @@ public interface RoleMapper {
      * @param permissionIds
      * @return
      */
-    int insertRolePermission(@Param("roleId") Long roleId, @Param("permissionIds") List<Long> permissionIds);
+    int insertRolePermission(@Param("roleId") String roleId, @Param("permissionIds") List<String> permissionIds);
 
     /**
      * 根据id删除角色
@@ -90,7 +90,7 @@ public interface RoleMapper {
      * @return
      */
     @Delete("delete from sys_role where id = #{id}")
-    int delete(Long id);
+    int delete(String id);
 
     /**
      * 根据角色id删除用户角色关系
@@ -98,5 +98,5 @@ public interface RoleMapper {
      * @return
      */
     @Delete("delete from sys_role_user where roleId = #{roleId}")
-    int deleteRoleUser(Long roleId);
+    int deleteRoleUser(String roleId);
 }

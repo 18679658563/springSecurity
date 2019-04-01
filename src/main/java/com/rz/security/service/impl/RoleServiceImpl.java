@@ -4,14 +4,17 @@ import com.rz.security.dto.RoleDto;
 import com.rz.security.mapper.RoleMapper;
 import com.rz.security.pojo.Role;
 import com.rz.security.service.IRoleService;
+import com.rz.security.tools.UUIDUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Created with IntelliJ IDEA.
@@ -35,21 +38,21 @@ public class RoleServiceImpl implements IRoleService {
     @Override
     @Transactional
     public void save(RoleDto roleDto) {
-        List<Long> permissionIds = roleDto.getPermissionIds();
-        permissionIds.remove(0l);
+        List<String> permissionIds = roleDto.getPermissionIds();
+        permissionIds.remove("0");
         Role role = roleMapper.selectByName(roleDto.getName());
         if(role != null && role.getId() != roleDto.getId()){
             throw new IllegalArgumentException(role.getName() + "已存在");
         }
-        if(roleDto.getId() != null){
+        if(!StringUtils.isEmpty(roleDto.getId())){
             //修改角色信息 删除旧中间表信息，新增新的关系
-            roleMapper.update(role);
+            roleMapper.update(roleDto);
             roleMapper.deleteRolePermission(role.getId());
-            log.debug("修改角色{}", role.getName());
         } else {
+            role = roleDto;
+            role.setId(UUIDUtil.getUUID());
             //新增角色
             roleMapper.insertRole(role);
-            log.debug("新增角色{}", role.getName());
         }
         if(!CollectionUtils.isEmpty(permissionIds)){
             roleMapper.insertRolePermission(role.getId(),permissionIds);
@@ -62,7 +65,7 @@ public class RoleServiceImpl implements IRoleService {
      */
     @Override
     @Transactional
-    public void delete(Long id) {
+    public void delete(String id) {
         roleMapper.deleteRolePermission(id);
         roleMapper.deleteRoleUser(id);
         roleMapper.delete(id);

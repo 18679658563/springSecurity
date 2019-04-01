@@ -4,6 +4,7 @@ import com.rz.security.dto.UserDto;
 import com.rz.security.mapper.UserMapper;
 import com.rz.security.pojo.User;
 import com.rz.security.service.IUserService;
+import com.rz.security.tools.UUIDUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
+
+import java.util.UUID;
 
 /**
  * Created with IntelliJ IDEA.
@@ -41,12 +44,12 @@ public class UserServiceImpl implements IUserService {
         User user = userDto;
         user.setPassword(bCryptPasswordEncoder.encode(userDto.getPassword()));
         user.setStatus(User.Status.VALID);
+        user.setId(UUIDUtil.getUUID());
         userMapper.insertUser(user);
         if(!CollectionUtils.isEmpty(userDto.getRoleIds())){
             userMapper.deleteUserRole(user.getId());
             userMapper.insertUserRoles(user.getId(),userDto.getRoleIds());
         }
-        log.debug("新增用户{}", user.getUsername());
         return user;
     }
 
@@ -75,7 +78,8 @@ public class UserServiceImpl implements IUserService {
         if(!bCryptPasswordEncoder.matches(oldPassword,user.getPassword())){
             throw new IllegalArgumentException("旧密码错误");
         }
-        userMapper.updatePassword(user.getId(),bCryptPasswordEncoder.encode(newPassword));
+        user.setPassword(bCryptPasswordEncoder.encode(newPassword));
+        userMapper.updateUser(user);
         log.debug("修改{}的密码", username);
     }
 }

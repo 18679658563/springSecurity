@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 
@@ -70,7 +71,7 @@ public class UserController {
 
     @GetMapping
     @PreAuthorize("hasAuthority('sys:user:query')")
-    public PageTableResponse listUsers(PageTableRequest request) {
+    public PageTableResponse listUsers(PageTableRequest request, HttpServletRequest request1) {
         return new PageTableHandler(new PageTableHandler.CountHandler() {
 
             @Override
@@ -82,7 +83,6 @@ public class UserController {
             @Override
             public List<User> list(PageTableRequest request) {
                 List<User> list = userMapper.selectByUser(request.getParams(), request.getOffset(), request.getLimit());
-                System.out.println();
                 return list;
             }
         }).handle(request);
@@ -95,7 +95,7 @@ public class UserController {
 
     @GetMapping("/{id}")
     @PreAuthorize("hasAuthority('sys:user:query')")
-    public User user(@PathVariable Long id) {
+    public User user(@PathVariable String id) {
         return userMapper.selectById(id);
     }
 }

@@ -28,12 +28,11 @@ public class DictController {
 			throw new IllegalArgumentException("类型和key已存在");
 		}
 		dictDao.save(dict);
-
 		return dict;
 	}
 
 	@GetMapping("/{id}")
-	public Dict get(@PathVariable Long id) {
+	public Dict get(@PathVariable String id) {
 		return dictDao.getById(id);
 	}
 
@@ -65,7 +64,7 @@ public class DictController {
 
 	@PreAuthorize("hasAuthority('dict:del')")
 	@DeleteMapping("/{id}")
-	public void delete(@PathVariable Long id) {
+	public void delete(@PathVariable String id) {
 		dictDao.delete(id);
 	}
 

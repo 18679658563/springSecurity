@@ -10,10 +10,10 @@ import java.util.Map;
 public interface DictMapper {
 
 	@Select("select * from t_dict t where t.id = #{id}")
-	Dict getById(Long id);
+	Dict getById(String id);
 
 	@Delete("delete from t_dict where id = #{id}")
-	int delete(Long id);
+	int delete(String id);
 
 	int update(Dict dict);
 

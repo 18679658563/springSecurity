@@ -54,11 +54,7 @@ token:
   expire:
     seconds: 7200
   jwtSecret: (XIAO:)_$^11244^%$_(WEI:)_@@++--(LAO:)_++++_.sds_(SHI:)
+
 logging:
-  config: classpath:logback-admin.xml
-log:
   level:
-    root: info
-    my: debug
-  file: logs/admin-server.log
-  maxsize: 30MB
+    com.rz.security.mapper: trace

@@ -3,7 +3,7 @@ package com.rz.security.pojo;
 /***
  * 字典类
  */
-public class Dict extends BaseEntity<Long> {
+public class Dict extends BaseEntity<String> {
 
 	private static final long serialVersionUID = -2431140186410912787L;
 	private String type;
