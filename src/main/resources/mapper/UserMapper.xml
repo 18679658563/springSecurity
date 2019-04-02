@@ -172,6 +172,9 @@
             now(),now()
         </trim>
     </insert>
+    <delete id="delete">
+        delete from sys_user where id = #{id}
+    </delete>
 
 
 

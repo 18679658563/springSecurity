@@ -20,7 +20,7 @@ public class DictController {
 	@Autowired
 	private DictMapper dictDao;
 
-	@PreAuthorize("hasAuthority('dict:add')")
+	@PreAuthorize("hasAuthority('sys:dict:add')")
 	@PostMapping
 	public Dict save(@RequestBody Dict dict) {
 		Dict d = dictDao.getByTypeAndK(dict.getType(), dict.getK());
@@ -36,7 +36,7 @@ public class DictController {
 		return dictDao.getById(id);
 	}
 
-	@PreAuthorize("hasAuthority('dict:add')")
+	@PreAuthorize("hasAuthority('sys:dict:add')")
 	@PutMapping
 	public Dict update(@RequestBody Dict dict) {
 		dictDao.update(dict);
@@ -44,7 +44,7 @@ public class DictController {
 		return dict;
 	}
 
-	@PreAuthorize("hasAuthority('dict:query')")
+	@PreAuthorize("hasAuthority('sys:dict:query')")
 	@GetMapping(params = { "start", "length" })
 	public PageTableResponse list(PageTableRequest request) {
 		return new PageTableHandler(new PageTableHandler.CountHandler() {
@@ -62,12 +62,13 @@ public class DictController {
 		}).handle(request);
 	}
 
-	@PreAuthorize("hasAuthority('dict:del')")
+	@PreAuthorize("hasAuthority('sys:dict:del')")
 	@DeleteMapping("/{id}")
 	public void delete(@PathVariable String id) {
 		dictDao.delete(id);
 	}
 
+	@PreAuthorize("hasAuthority('sys:dict:query')")
 	@GetMapping(params = "type")
 	public List<Dict> listByType(String type) {
 		return dictDao.listByType(type);

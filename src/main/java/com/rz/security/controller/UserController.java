@@ -98,4 +98,10 @@ public class UserController {
     public User user(@PathVariable String id) {
         return userMapper.selectById(id);
     }
+
+    @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority('sys:user:del')")
+    public void delete(@PathVariable String id) {
+        userMapper.delete(id);
+    }
 }

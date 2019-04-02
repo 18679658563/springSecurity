@@ -20,12 +20,12 @@
 										<div class="form-group">
 											type：
 											<input id="type" type="text" class="form-control" placeholder="type">
-											<button id="searchBt" class="layui-btn layui-btn-sm" permission="dict:query"><i class="layui-icon">&#xe615;</i>搜索</button>
+											<button id="searchBt" class="layui-btn layui-btn-sm" permission="sys:dict:query"><i class="layui-icon">&#xe615;</i>搜索</button>
 										</div>
 									</form>
 	                   			</td>
 	                   			<td align="right">
-	                   				<button class="layui-btn layui-btn-sm" onclick="location.href='addDict.html'" permission="dict:add">
+	                   				<button class="layui-btn layui-btn-sm" onclick="location.href='addDict.html'" permission="sys:dict:add">
                                       <i class="layui-icon">&#xe608;</i> 添加
                                     </button>
 	                   			</td>
@@ -122,8 +122,8 @@ function init(){
 			        "render": function (data, type, row) {
              		           var id = row['id'];
              		           var href = "updateDict.html?id=" + id;
-                                var edit = buttonEdit(href, "dict:add", pers);
-             		            var del = buttonDel(id, "dict:del", pers);
+                                var edit = buttonEdit(href, "sys:dict:add", pers);
+             		            var del = buttonDel(id, "sys:dict:del", pers);
                                 return edit + del;
                	            }		
 				},

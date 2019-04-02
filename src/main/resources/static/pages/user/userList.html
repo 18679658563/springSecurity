@@ -49,8 +49,10 @@
                                     <th>昵称</th>
                                     <th>手机号</th>
                                     <th>邮箱</th>
-									<th>状态</th>     
-									<th>操作</th>
+									<th>状态</th>
+                                    <th>创建时间</th>
+                                    <th>最新修改时间</th>
+                                    <th>操作</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -130,6 +132,8 @@ function init(){
                     	return userStatus[data];
                   	}
                 },
+                { "data": "createTime", "defaultContent": ""},
+                { "data": "updateTime", "defaultContent": ""},
                 {
                 	"data": "", 
                 	"defaultContent": "",
@@ -138,13 +142,30 @@ function init(){
                 		var id = row['id'];
                 		var href = "updateUser.html?id=" + id;
                 		var edit = buttonEdit(href, "sys:user:add", pers);
-                        return edit;
+                        var del = buttonDel(id, "sys:user:del", pers);
+                        return edit + del;
                   }
                 },
                 
             ],
             "order": [[ 0, "desc" ],[1, "asc"]]
         } );
+}
+
+function del(id){
+    layer.confirm('确定要删除吗？', {
+        btn : [ '确定', '取消' ]
+    }, function() {
+        $.ajax({
+            type : 'delete',
+            url : '/users/'+id,
+            success : function(data) {
+                example.ajax.reload();
+                layer.msg("删除成功");
+            }
+        });
+        layer.close(1);
+    });
 }
 
 $("#searchBt").click(function(){

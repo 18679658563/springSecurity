@@ -67,4 +67,6 @@ public interface UserMapper {
      * @return
      */
     int updateUser(User user);
+
+    int delete(String id);
 }
