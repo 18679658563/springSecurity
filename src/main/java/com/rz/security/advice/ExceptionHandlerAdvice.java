@@ -15,9 +15,8 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 
 
 /**
- * 统一异常处理
  * Created with IntelliJ IDEA.
- * Description:
+ * Description:统一异常处理
  * User: silence
  * Date: 2019-01-29
  * Time: 下午2:59
@@ -25,11 +24,9 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 @RestControllerAdvice
 public class ExceptionHandlerAdvice {
 
-    private static final Logger log = LoggerFactory.getLogger("adminL logogger");
-
     @ExceptionHandler({IllegalArgumentException.class})
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResponseInfo badResquestException(IllegalArgumentException exception){
+    public ResponseInfo badRequestException(IllegalArgumentException exception){
         return new ResponseInfo(HttpStatus.BAD_REQUEST.value()+"",exception.getMessage());
     }
 
@@ -49,7 +46,6 @@ public class ExceptionHandlerAdvice {
     @ExceptionHandler(Throwable.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ResponseInfo exception(Throwable throwable) {
-        log.error("系统异常", throwable);
         return new ResponseInfo(HttpStatus.INTERNAL_SERVER_ERROR.value() + "", throwable.getMessage());
 
     }

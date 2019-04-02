@@ -4,9 +4,11 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.Lists;
 import com.rz.security.dto.LoginUser;
+import com.rz.security.dto.PermissionDto;
 import com.rz.security.mapper.PermissionMapper;
 import com.rz.security.pojo.Permission;
 import com.rz.security.service.IPermissionService;
+import com.rz.security.tools.BeanUtil;
 import com.rz.security.tools.UserUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -39,16 +41,16 @@ public class PermissionController {
     private IPermissionService permissionService;
 
     @GetMapping("/current")
-    public List<Permission> permissionsCurrent() {
+    public List<PermissionDto> permissionsCurrent() {
         LoginUser loginUser = UserUtil.getLoginUser();
         List<Permission> list = loginUser.getPermissions();
         final List<Permission> permissions = list.stream().filter(l -> l.getType().equals(1)).collect(Collectors.toList());
         List<Permission> firstLevel = permissions.stream().filter(p -> p.getParentId().equals("0")).collect(Collectors.toList());
-        firstLevel.parallelStream().forEach(p -> {
+        List<PermissionDto> permissionDtos = BeanUtil.createBeanListByTarget(firstLevel,PermissionDto.class);
+        permissionDtos.parallelStream().forEach(p -> {
             setChild(p, permissions);
         });
-
-        return firstLevel;
+        return permissionDtos;
     }
 
     /**
@@ -56,11 +58,12 @@ public class PermissionController {
      * @param p
      * @param permissions
      */
-    private void setChild(Permission p, List<Permission> permissions) {
+    private void setChild(PermissionDto p, List<Permission> permissions) {
         List<Permission> child = permissions.parallelStream().filter(a -> a.getParentId().equals(p.getId())).collect(Collectors.toList());
         p.setChild(child);
+        List<PermissionDto> permissionDtos = BeanUtil.createBeanListByTarget(child,PermissionDto.class);
         if (!CollectionUtils.isEmpty(child)) {
-            child.parallelStream().forEach(c -> {
+            permissionDtos.parallelStream().forEach(c -> {
                 //递归设置子元素，多级菜单支持
                 setChild(c, permissions);
             });

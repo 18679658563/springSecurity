@@ -19,8 +19,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class PermissionServiceImpl implements IPermissionService {
 
-    private static final Logger log = LoggerFactory.getLogger("adminLogger");
-
     @Autowired
     private PermissionMapper permissionMapper;
 
@@ -31,7 +29,6 @@ public class PermissionServiceImpl implements IPermissionService {
     @Override
     public void save(Permission permission) {
         permissionMapper.insertPermission(permission);
-        log.debug("新增菜单{}", permission.getName());
     }
 
     /**

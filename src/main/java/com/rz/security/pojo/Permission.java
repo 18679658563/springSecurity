@@ -31,5 +31,4 @@ public class Permission extends BaseEntity<String> {
 
     private Integer sort;
 
-    private List<Permission> child;
 }
