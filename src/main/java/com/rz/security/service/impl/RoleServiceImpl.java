@@ -41,7 +41,8 @@ public class RoleServiceImpl implements IRoleService {
         List<String> permissionIds = roleDto.getPermissionIds();
         permissionIds.remove("0");
         Role role = roleMapper.selectByName(roleDto.getName());
-        if(role != null && role.getId() != roleDto.getId()){
+        Role role1 =roleMapper.selectById(roleDto.getId());
+        if(role != null && !role1.getName().equals(roleDto.getName())){
             throw new IllegalArgumentException(role.getName() + "已存在");
         }
         if(!StringUtils.isEmpty(roleDto.getId())){

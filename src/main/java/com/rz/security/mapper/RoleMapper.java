@@ -15,7 +15,6 @@ public interface RoleMapper {
      * @param id
      * @return
      */
-    @Select("select * from sys_role t where t.id = #{id}")
     Role selectById(String id);
 
     /**
@@ -40,7 +39,6 @@ public interface RoleMapper {
      * @param name
      * @return
      */
-    @Select("select * from sys_role t where t.name=#{name}")
     Role selectByName(String name);
 
     /**
@@ -48,7 +46,6 @@ public interface RoleMapper {
      * @param userId
      * @return
      */
-    @Select("select * from sys_role r inner join sys_role_user ru on ru.roleId = r.id where ru.userId = #{userId}")
     List<Role> selectByUserId(String userId);
 
     /**
@@ -56,8 +53,6 @@ public interface RoleMapper {
      * @param role
      * @return
      */
-    @Options(useGeneratedKeys = true, keyProperty = "id")
-    @Insert("insert into sys_role(id, name, description, createTime, updateTime) values(#{id},#{name}, #{description}, now(),now())")
     int insertRole(Role role);
 
     /**
@@ -65,7 +60,6 @@ public interface RoleMapper {
      * @param role
      * @return
      */
-    @Update("update sys_role t set t.name = #{name}, t.description = #{description}, updateTime = now() where t.id = #{id}")
     int update(Role role);
 
     /**
@@ -73,7 +67,6 @@ public interface RoleMapper {
      * @param roleId
      * @return
      */
-    @Delete("delete from sys_role_permission where roleId = #{roleId}")
     int deleteRolePermission(String roleId);
 
     /**
@@ -89,7 +82,6 @@ public interface RoleMapper {
      * @param id
      * @return
      */
-    @Delete("delete from sys_role where id = #{id}")
     int delete(String id);
 
     /**
@@ -97,6 +89,5 @@ public interface RoleMapper {
      * @param roleId
      * @return
      */
-    @Delete("delete from sys_role_user where roleId = #{roleId}")
     int deleteRoleUser(String roleId);
 }

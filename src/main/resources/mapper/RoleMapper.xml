@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.rz.security.mapper.RoleMapper">
+    <resultMap id="BaseModel" type="com.rz.security.pojo.Role">
+        <id column="id" property="id" jdbcType="CHAR" />
+        <result column="name" property="name" jdbcType="VARCHAR" />
+        <result column="description" property="description" jdbcType="VARCHAR" />
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+        <result column="update_time" property="UpdateTime" jdbcType="TIMESTAMP" />
+    </resultMap>
+
+    <sql id="columnRole">
+        id,name,description,create_time,update_time
+    </sql>
+
     <sql id="where">
         <where>
             <if test="params.name != null and params.name != ''">
@@ -9,20 +21,91 @@
         </where>
     </sql>
 
-    <select id="count" resultType="int">
+    <select id="count" resultType="java.lang.Integer">
         select count(1) from sys_role t
         <include refid="where" />
     </select>
 
-    <select id="selectByRole" resultType="com.rz.security.pojo.Role">
-        select * from sys_role t
+    <select id="selectById" resultMap="BaseModel">
+     select
+        <include refid="columnRole" />
+      from sys_role t where t.id = #{id}
+    </select>
+
+    <select id="selectByName" resultMap="BaseModel">
+        select
+        <include refid="columnRole" />
+        from sys_role t
+        where t.name = #{name}
+    </select>
+
+    <select id="selectByRole" resultMap="BaseModel">
+        select
+        <include refid="columnRole" />
+        from sys_role t
         <include refid="where" />
-        ${params.orderBy}
+       order by update_time
         <if test="offset != null and offset >= 0 and limit != null and limit >= 0">
             limit #{offset}, #{limit}
         </if>
     </select>
 
+    <select id="selectByUserId" resultMap="BaseModel">
+        select
+        <include refid="columnRole" />
+         from sys_role r
+        inner join sys_role_user ru on ru.roleId = r.id
+        where ru.userId = #{userId}
+    </select>
+    <insert id="insertRole">
+        insert
+          into sys_role
+            <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="id != null and id != '' " >
+                id,
+            </if>
+            <if test="name != null and name != '' " >
+                name,
+            </if>
+            <if test="description != null and description != '' " >
+                description,
+            </if>
+           create_time,update_time
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="id != null and id != '' " >
+                #{id},
+            </if>
+            <if test="name != null and name != '' " >
+                #{name},
+            </if>
+            <if test="description != null and description != '' " >
+                #{description},
+            </if>
+            now(),now()
+        </trim>
+    </insert>
+
+    <update id="update">
+        update sys_role t
+        <set>
+            <if test="name != null and name != '' " >
+                name = #{name},
+            </if>
+            <if test="description != null and description != '' " >
+                description = #{description},
+            </if>
+            update_time = now()
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id="delete">
+        delete from sys_role where id = #{id}
+    </delete>
+
+
+    <!-- 中间表 -->
     <insert id="insertRolePermission">
         insert into sys_role_permission(roleId, permissionId) values
         <foreach collection="permissionIds" item="permissionId"
@@ -30,4 +113,12 @@
             (#{roleId}, #{permissionId})
         </foreach>
     </insert>
+
+    <delete id="deleteRolePermission">
+        delete from sys_role_permission where roleId = #{roleId}
+    </delete>
+
+    <delete id="deleteRoleUser">
+        delete from sys_role_user where roleId = #{roleId}
+    </delete>
 </mapper>

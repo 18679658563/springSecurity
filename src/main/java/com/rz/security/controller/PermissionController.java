@@ -98,16 +98,10 @@ public class PermissionController {
     public JSONArray permissionsAll() {
         List<Permission> permissionsAll = permissionMapper.selectAll();
         JSONArray array = new JSONArray();
-        setPermissionsTree("", permissionsAll, array);
+        setPermissionsTree("0", permissionsAll, array);
         return array;
     }
 
-    @GetMapping("/parents")
-    @PreAuthorize("hasAuthority('sys:menu:query')")
-    public List<Permission> parentMenu() {
-        List<Permission> parents = permissionMapper.selectByParentId();
-        return parents;
-    }
 
     /**
      * 菜单树
@@ -128,6 +122,13 @@ public class PermissionController {
                 }
             }
         }
+    }
+
+    @GetMapping("/parents")
+    @PreAuthorize("hasAuthority('sys:menu:query')")
+    public List<Permission> parentMenu() {
+        List<Permission> parents = permissionMapper.selectByParentId();
+        return parents;
     }
 
     @GetMapping(params = "roleId")
