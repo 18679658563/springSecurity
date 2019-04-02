@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.rz.security.mapper.PermissionMapper">
+    <resultMap id="BaseModel" type="com.rz.security.pojo.Permission">
+        <id column="id" property="id" jdbcType="CHAR" />
+        <result column="parentId" property="parentId" jdbcType="VARCHAR" />
+        <result column="name" property="name" jdbcType="VARCHAR" />
+        <result column="css" property="css" jdbcType="VARCHAR" />
+        <result column="href" property="href" jdbcType="VARCHAR" />
+        <result column="type" property="type" jdbcType="INTEGER" />
+        <result column="permission" property="permission" jdbcType="VARCHAR" />
+        <result column="sort" property="sort" jdbcType="INTEGER" />
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+        <result column="update_time" property="UpdateTime" jdbcType="TIMESTAMP" />
+    </resultMap>
+
+    <sql id="columnRole">
+        id,parentId,name,css,href,type,permission,sort,create_time,update_time
+    </sql>
+
+    <select id="selectById" resultMap="BaseModel">
+        select
+         <include refid="columnRole"/>
+         from sys_permission t
+          where t.id = #{id}
+    </select>
+    <select id="selectAll" resultMap="BaseModel">
+        select
+         <include refid="columnRole"/>
+         from sys_permission t
+          order by t.sort
+    </select>
+    <select id="selectByParentId" resultMap="BaseModel">
+        select
+        <include refid="columnRole"/>
+         from sys_permission t
+        where t.type = 1
+        order by t.sort
+    </select>
+    <insert id="insertPermission">
+        insert into sys_permission
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="id != null and id != '' " >
+                id,
+            </if>
+            <if test="parentId != null and parentId != '' " >
+                parentId,
+            </if>
+            <if test="name != null and name != '' " >
+                name,
+            </if>
+            <if test="css != null and css != '' " >
+                css,
+            </if>
+            <if test="href != null and href != '' " >
+                href,
+            </if>
+            <if test="type != null  " >
+                type,
+            </if>
+            <if test="permission != null and permission != '' " >
+                permission,
+            </if>
+            <if test="sort != null " >
+                sort,
+            </if>
+            create_time,update_time
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="id != null and id != '' " >
+                #{id},
+            </if>
+            <if test="parentId != null and parentId != '' " >
+                #{parentId},
+            </if>
+            <if test="name != null and name != '' " >
+                #{name},
+            </if>
+            <if test="css != null and css != '' " >
+                #{css},
+            </if>
+            <if test="href != null and href != '' " >
+                #{href},
+            </if>
+            <if test="type != null  " >
+                #{type},
+            </if>
+            <if test="permission != null and permission != '' " >
+                #{permission},
+            </if>
+            <if test="sort != null " >
+                #{sort},
+            </if>
+            now(),now()
+        </trim>
+    </insert>
+    <update id="update">
+        update sys_permission t
+        <set>
+            <if test="name != null and name != '' " >
+                name = #{name},
+            </if>
+            <if test="parentId != null and parentId != '' " >
+                parentId = #{parentId},
+            </if>
+            <if test="css != null and css != '' " >
+                css = #{css},
+            </if>
+            <if test="href != null and href != '' " >
+                href = #{href},
+            </if>
+            <if test="type != null  " >
+                type = #{type},
+            </if>
+            <if test="permission != null and permission != '' " >
+                permission = #{permission},
+            </if>
+            <if test="sort != null  " >
+                sort = #{sort},
+            </if>
+            update_time = now()
+        </set>
+        where t.id = #{id}
+    </update>
+    <delete id="deleteById">
+        delete from sys_permission
+          where id = #{id}
+    </delete>
+    <delete id="deleteByParentId">
+        delete from sys_permission
+        where parentId = #{id}
+    </delete>
+
+    <!--中间表 -->
+    <select id="selectByUserId" resultMap="BaseModel">
+        select
+          distinct p.*
+          from  sys_permission p
+              inner join sys_role_permission rp
+                on p.id = rp.permissionId
+              inner join sys_role_user ru
+              on ru.roleId = rp.roleId
+              where ru.userId = #{userId}
+              order by p.sort
+    </select>
+    <select id="selectByRoleId" resultMap="BaseModel">
+        select p.*
+        from sys_permission p
+        inner join sys_role_permission rp
+        on p.id = rp.permissionId
+        where rp.roleId = #{roleId}
+        order by p.sort
+    </select>
+    <delete id="deleteRolePermission">
+        delete from sys_role_permission
+        where permissionId = #{permissionId}
+    </delete>
+</mapper>
