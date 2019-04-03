@@ -2,6 +2,8 @@ package com.rz.security.service.impl;
 
 import com.rz.security.dto.LoginUser;
 import com.rz.security.dto.TokenDto;
+import com.rz.security.pojo.Log;
+import com.rz.security.service.ILogService;
 import com.rz.security.service.ITokenService;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
@@ -46,6 +48,8 @@ public class TokenServiceJWTImpl implements ITokenService {
     @Autowired
     private RedisTemplate<String, LoginUser> redisTemplate;
 
+    @Autowired
+    private ILogService logService;
 
     //私钥
     @Value("${token.jwtSecret}")
@@ -65,6 +69,10 @@ public class TokenServiceJWTImpl implements ITokenService {
         loginUser.setToken(UUID.randomUUID().toString());
         cacheLoginUser(loginUser);
         String jwtToken = createJWTToken(loginUser);
+        Log log = new Log();
+        log.setDescription("登陆");
+        log.setType("INFO");
+        logService.save(log);
         return new TokenDto(jwtToken,loginUser.getLoginTime());
     }
 
@@ -91,6 +99,11 @@ public class TokenServiceJWTImpl implements ITokenService {
         return null;
     }
 
+    /**
+     * 删除token
+     * @param token
+     * @return
+     */
     @Override
     public boolean deleteToken(String token) {
         String uuid = getUUIDFromJWT(token);
@@ -99,6 +112,10 @@ public class TokenServiceJWTImpl implements ITokenService {
             LoginUser loginUser = redisTemplate.opsForValue().get(key);
             if(loginUser != null){
                 redisTemplate.delete(key);
+                Log log = new Log();
+                log.setDescription("退出");
+                log.setType("INFO");
+                logService.save(log);
                 return true;
             }
         }

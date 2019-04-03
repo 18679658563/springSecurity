@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rz.security.mapper.LogMapper">
+	<resultMap id="BaseModel" type="com.rz.security.pojo.Log">
+		<id column="id" property="id" jdbcType="CHAR" />
+		<result column="username" property="username" jdbcType="CHAR" />
+		<result column="description" property="description" jdbcType="VARCHAR" />
+		<result column="type" property="type" jdbcType="VARCHAR"/>
+		<result column="request_ip" property="requestIp" jdbcType="VARCHAR"/>
+		<result column="time" property="time" jdbcType="VARCHAR"/>
+		<result column="exception_detail" property="exceptionDetail" jdbcType="VARCHAR"/>
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="update_time" property="UpdateTime" jdbcType="TIMESTAMP" />
+	</resultMap>
+
+	<insert id="insertLog">
+		insert into t_log
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="id != null and id != '' " >
+				id,
+			</if>
+			<if test="username != null and username != '' " >
+				username,
+			</if>
+			<if test="description != null and description != '' " >
+				description,
+			</if>
+			<if test="type != null and type != '' " >
+				type,
+			</if>
+			<if test="requestIp != null and requestIp != '' " >
+				request_ip,
+			</if>
+			<if test="time != null and time != '' " >
+				time,
+			</if>
+			<if test="exceptionDetail != null and exceptionDetail != '' " >
+				exception_detail,
+			</if>
+			create_time,update_time
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+			<if test="id != null and id != '' " >
+				#{id},
+			</if>
+			<if test="username != null and username != '' " >
+				#{username},
+			</if>
+			<if test="description != null and description != '' " >
+				#{description},
+			</if>
+			<if test="type != null and type != '' " >
+				#{type},
+			</if>
+			<if test="requestIp != null and requestIp != '' " >
+				#{requestIp},
+			</if>
+			<if test="time != null and time != '' " >
+				#{time},
+			</if>
+			<if test="exceptionDetail != null and exceptionDetail != '' " >
+				#{exceptionDetail},
+			</if>
+			now(),now()
+		</trim>
+	</insert>
+
+</mapper>

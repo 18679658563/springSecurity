@@ -202,4 +202,18 @@ CREATE TABLE `t_token`  (
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
+
+DROP TABLE IF EXISTS `t_log`;
+CREATE TABLE `t_log`  (
+  `id` char(32)   PRIMARY KEY COMMENT  'token',
+  `username` varchar(32) not null comment '哪个用户',
+  `description` varchar(20) default null  comment '描述',
+  `type` varchar(10) comment '类型',
+  `request_ip` varchar(20) comment '请求的ip地址',
+  `time` varchar(50) comment '消耗的时间',
+   `exception_detail` text comment '异常信息',
+  `createTime` datetime NOT NULL,
+  `updateTime` datetime NOT NULL
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
 SET FOREIGN_KEY_CHECKS = 1;

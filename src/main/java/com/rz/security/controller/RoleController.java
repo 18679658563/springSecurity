@@ -1,6 +1,7 @@
 package com.rz.security.controller;
 
 import com.google.common.collect.Maps;
+import com.rz.security.annotation.LogAOP;
 import com.rz.security.dto.RoleDto;
 import com.rz.security.mapper.RoleMapper;
 import com.rz.security.page.PageTableHandler;
@@ -32,6 +33,7 @@ public class RoleController {
     @Autowired
     private RoleMapper roleMapper;
 
+    @LogAOP(description = "新增/修改角色")
     @PostMapping
     @PreAuthorize("hasAuthority('sys:role:add')")
     public void saveRole(@RequestBody RoleDto roleDto) {
@@ -75,6 +77,7 @@ public class RoleController {
         return roleMapper.selectByUserId(userId);
     }
 
+    @LogAOP(description = "删除角色")
     @DeleteMapping("/{id}")
     @PreAuthorize("hasAuthority('sys:role:del')")
     public void delete(@PathVariable String id) {
