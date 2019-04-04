@@ -1,5 +1,6 @@
 package com.rz.security.controller;
 
+import com.rz.security.annotation.LogAOP;
 import com.rz.security.dto.UserDto;
 import com.rz.security.mapper.UserMapper;
 import com.rz.security.page.PageTableHandler;
@@ -37,6 +38,7 @@ public class UserController {
     @Autowired
     private UserMapper userMapper;
 
+    @LogAOP(description = "添加用户")
     @PostMapping
     @PreAuthorize("hasAuthority('sys:user:add')")
     public User saveUser(@RequestBody UserDto userDto) {
@@ -48,12 +50,14 @@ public class UserController {
         return userService.save(userDto);
     }
 
+    @LogAOP(description = "修改用户信息")
     @PutMapping
     @PreAuthorize("hasAuthority('sys:user:add')")
     public User updateUser(@RequestBody UserDto userDto) {
         return userService.updateUser(userDto);
     }
 
+    @LogAOP(description = "修改用户头像")
     @PutMapping(params = "headImgUrl")
     public void updateHeadImgUrl(String headImgUrl) {
         User user = UserUtil.getLoginUser();
@@ -63,6 +67,7 @@ public class UserController {
         userService.updateUser(userDto);
     }
 
+    @LogAOP(description = "修改用户密码")
     @PutMapping("/{username}")
     @PreAuthorize("hasAuthority('sys:user:password')")
     public void changePassword(@PathVariable String username, String oldPassword, String newPassword) {
@@ -99,6 +104,7 @@ public class UserController {
         return userMapper.selectById(id);
     }
 
+    @LogAOP(description = "删除用户")
     @DeleteMapping("/{id}")
     @PreAuthorize("hasAuthority('sys:user:del')")
     public void delete(@PathVariable String id) {

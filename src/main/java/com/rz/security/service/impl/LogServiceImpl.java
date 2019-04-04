@@ -7,6 +7,7 @@ import com.rz.security.tools.IpUtil;
 import com.rz.security.tools.UUIDUtil;
 import com.rz.security.tools.UserUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -32,6 +33,7 @@ public class LogServiceImpl implements ILogService {
      * @return
      */
     @Override
+    @Async
     public int save(Log log) {
         log.setId(UUIDUtil.getUUID());
         log.setUsername(UserUtil.getLoginUser().getUsername());

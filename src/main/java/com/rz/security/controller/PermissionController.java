@@ -3,6 +3,7 @@ package com.rz.security.controller;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.Lists;
+import com.rz.security.annotation.LogAOP;
 import com.rz.security.dto.LoginUser;
 import com.rz.security.dto.PermissionDto;
 import com.rz.security.mapper.PermissionMapper;
@@ -140,6 +141,7 @@ public class PermissionController {
         return permissionMapper.selectByRoleId(roleId);
     }
 
+    @LogAOP(description = "添加菜单")
     @PostMapping
     @PreAuthorize("hasAuthority('sys:menu:add')")
     public void save(@RequestBody Permission permission) {
@@ -153,6 +155,7 @@ public class PermissionController {
         return permissionMapper.selectById(id);
     }
 
+    @LogAOP(description = "修改菜单")
     @PutMapping
     @PreAuthorize("hasAuthority('sys:menu:add')")
     public void update(@RequestBody Permission permission) {
@@ -174,6 +177,7 @@ public class PermissionController {
                 .map(Permission::getPermission).collect(Collectors.toSet());
     }
 
+    @LogAOP(description = "删除菜单")
     @DeleteMapping("/{id}")
     @PreAuthorize("hasAuthority('sys:menu:del')")
     public void delete(@PathVariable String id) {

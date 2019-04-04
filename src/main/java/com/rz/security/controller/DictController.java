@@ -1,5 +1,6 @@
 package com.rz.security.controller;
 
+import com.rz.security.annotation.LogAOP;
 import com.rz.security.mapper.DictMapper;
 import com.rz.security.page.PageTableHandler;
 import com.rz.security.page.PageTableRequest;
@@ -20,6 +21,7 @@ public class DictController {
 	@Autowired
 	private DictMapper dictDao;
 
+	@LogAOP(description = "添加字典")
 	@PreAuthorize("hasAuthority('sys:dict:add')")
 	@PostMapping
 	public Dict save(@RequestBody Dict dict) {
@@ -36,12 +38,20 @@ public class DictController {
 		return dictDao.getById(id);
 	}
 
+	@LogAOP(description = "修改字典")
 	@PreAuthorize("hasAuthority('sys:dict:add')")
 	@PutMapping
 	public Dict update(@RequestBody Dict dict) {
 		dictDao.update(dict);
 
 		return dict;
+	}
+
+	@LogAOP(description = "删除字典")
+	@PreAuthorize("hasAuthority('sys:dict:del')")
+	@DeleteMapping("/{id}")
+	public void delete(@PathVariable String id) {
+		dictDao.delete(id);
 	}
 
 	@PreAuthorize("hasAuthority('sys:dict:query')")
@@ -60,12 +70,6 @@ public class DictController {
 				return dictDao.list(request.getParams(), request.getOffset(), request.getLimit());
 			}
 		}).handle(request);
-	}
-
-	@PreAuthorize("hasAuthority('sys:dict:del')")
-	@DeleteMapping("/{id}")
-	public void delete(@PathVariable String id) {
-		dictDao.delete(id);
 	}
 
 	@PreAuthorize("hasAuthority('sys:dict:query')")
