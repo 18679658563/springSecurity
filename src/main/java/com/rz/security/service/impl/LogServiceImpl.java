@@ -33,7 +33,6 @@ public class LogServiceImpl implements ILogService {
      * @return
      */
     @Override
-    @Async
     public int save(Log log) {
         log.setId(UUIDUtil.getUUID());
         log.setUsername(UserUtil.getLoginUser().getUsername());
