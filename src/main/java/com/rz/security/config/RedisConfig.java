@@ -29,7 +29,6 @@ public class RedisConfig {
         redis.setValueSerializer(valueSerializer);
         redis.setHashValueSerializer(valueSerializer);
         redis.setConnectionFactory(connectionFactory);
-
         return redis;
     }
 
