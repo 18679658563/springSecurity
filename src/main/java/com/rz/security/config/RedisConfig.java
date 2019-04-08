@@ -18,7 +18,6 @@ import org.springframework.data.redis.serializer.GenericToStringSerializer;
 @Configuration
 public class RedisConfig {
 
-    @SuppressWarnings({ "unchecked", "rawtypes" })
     @Bean("redisTemplate")
     public RedisTemplate redisTemplate(@Lazy RedisConnectionFactory connectionFactory) {
         RedisTemplate redis = new RedisTemplate();
