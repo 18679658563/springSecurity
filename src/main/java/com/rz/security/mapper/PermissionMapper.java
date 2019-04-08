@@ -2,6 +2,10 @@ package com.rz.security.mapper;
 
 import com.rz.security.pojo.Permission;
 import org.apache.ibatis.annotations.*;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 
 import java.util.List;
 import java.util.Set;
@@ -14,6 +18,7 @@ import java.util.Set;
  * Time: 上午9:17
  */
 @Mapper
+@CacheConfig(cacheNames = "permission")
 public interface PermissionMapper {
 
     /**
@@ -21,6 +26,7 @@ public interface PermissionMapper {
      * @param id
      * @return
      */
+    @Cacheable(key = "#p0")
     Permission selectById(String id);
 
     /**
@@ -61,6 +67,7 @@ public interface PermissionMapper {
      * @param permission
      * @return
      */
+    @CachePut(key = "#p0.id")
     int update(Permission permission);
 
     /**
@@ -68,6 +75,7 @@ public interface PermissionMapper {
      * @param id
      * @return
      */
+    @CacheEvict(key = "#p0")
     int deleteById(String id);
 
     /**

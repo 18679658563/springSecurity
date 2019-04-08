@@ -35,7 +35,6 @@ import java.util.UUID;
 @Service
 public class TokenServiceDbImpl implements ITokenService {
 
-    private static final Logger log = LoggerFactory.getLogger("adminLogger");
     /**
      * token过期秒数
      */
@@ -168,9 +167,7 @@ public class TokenServiceDbImpl implements ITokenService {
             jwtClaims = Jwts.parser().setSigningKey(getKeyInstance()).parseClaimsJws(jwt).getBody();
             return MapUtils.getString(jwtClaims, LOGIN_USER_KEY);
         } catch (ExpiredJwtException e) {
-            log.error("{}已过期", jwt);
         } catch (Exception e) {
-            log.error("{}", e);
         }
         return null;
     }
