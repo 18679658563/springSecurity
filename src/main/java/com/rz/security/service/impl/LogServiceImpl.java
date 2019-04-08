@@ -6,6 +6,7 @@ import com.rz.security.service.ILogService;
 import com.rz.security.tools.IpUtil;
 import com.rz.security.tools.UUIDUtil;
 import com.rz.security.tools.UserUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
@@ -35,7 +36,9 @@ public class LogServiceImpl implements ILogService {
     @Override
     public int save(Log log) {
         log.setId(UUIDUtil.getUUID());
-        log.setUsername(UserUtil.getLoginUser().getUsername());
+        if(StringUtils.isBlank(log.getUsername())){
+            log.setUsername(UserUtil.getLoginUser().getUsername());
+        }
         /**
          * 获取ip地址
          */

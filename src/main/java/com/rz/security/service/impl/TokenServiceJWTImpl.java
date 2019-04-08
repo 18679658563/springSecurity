@@ -5,18 +5,20 @@ import com.rz.security.dto.TokenDto;
 import com.rz.security.pojo.Log;
 import com.rz.security.service.ILogService;
 import com.rz.security.service.ITokenService;
+import com.rz.security.tools.SerializeUtil;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
 
 import javax.crypto.spec.SecretKeySpec;
 import javax.xml.bind.DatatypeConverter;
@@ -37,8 +39,6 @@ import java.util.concurrent.TimeUnit;
 @Primary
 public class TokenServiceJWTImpl implements ITokenService {
 
-    private static final Logger log = LoggerFactory.getLogger("adminLogger");
-
     /**
      * token过期秒数
      */
@@ -46,7 +46,7 @@ public class TokenServiceJWTImpl implements ITokenService {
     private Integer expireSeconds;
 
     @Autowired
-    private RedisTemplate<String, LoginUser> redisTemplate;
+    private JedisPool pool;
 
     @Autowired
     private ILogService logService;
@@ -94,7 +94,16 @@ public class TokenServiceJWTImpl implements ITokenService {
     public LoginUser getLoginUser(String token) {
         String uuid = getUUIDFromJWT(token);
         if(StringUtils.isNotEmpty(uuid)){
-            return redisTemplate.boundValueOps(getTokenKey(uuid)).get();
+            Jedis jedis = null;
+            try{
+                jedis = pool.getResource();
+                return (LoginUser)SerializeUtil.unserialize(jedis.get(getTokenKey(uuid).getBytes()));
+            }finally {
+                if(jedis != null){
+                    jedis.close();
+                }
+            }
+
         }
         return null;
     }
@@ -108,16 +117,27 @@ public class TokenServiceJWTImpl implements ITokenService {
     public boolean deleteToken(String token) {
         String uuid = getUUIDFromJWT(token);
         if(StringUtils.isNotEmpty(uuid)){
-            String key = getTokenKey(uuid);
-            LoginUser loginUser = redisTemplate.opsForValue().get(key);
-            if(loginUser != null){
-                redisTemplate.delete(key);
-                Log log = new Log();
-                log.setDescription("退出");
-                log.setType("INFO");
-                logService.save(log);
-                return true;
+            Jedis jedis = null;
+            try{
+                jedis = pool.getResource();
+                String key = getTokenKey(uuid);
+                LoginUser loginUser = (LoginUser)SerializeUtil.unserialize(jedis.get(key.getBytes()));
+                if(loginUser != null){
+                    Log log = new Log();
+                    log.setDescription("退出");
+                    log.setType("INFO");
+                    log.setUsername(loginUser.getUsername());
+                    logService.save(log);
+                    jedis.del(key.getBytes());
+                    return true;
+                }
+            }finally{
+                if(jedis != null){
+                    jedis.close();
+                }
             }
+
+
         }
         return false;
     }
@@ -130,7 +150,21 @@ public class TokenServiceJWTImpl implements ITokenService {
         loginUser.setLoginTime(System.currentTimeMillis());
         loginUser.setExpireTime(loginUser.getLoginTime() + expireSeconds * 1000);
         // 根据uuid将loginUser缓存
-        redisTemplate.boundValueOps(getTokenKey(loginUser.getToken())).set(loginUser, expireSeconds, TimeUnit.SECONDS);
+        String key = getTokenKey(loginUser.getToken());
+        Jedis jedis = null;
+        try{
+            jedis = pool.getResource();
+            byte[] b = jedis.get(key.getBytes());
+            if(b != null && b.length > 0){
+                jedis.del(key.getBytes());
+            }
+            System.out.println(key+"\n"+SerializeUtil.serialize(loginUser));
+            jedis.set(key.getBytes(),SerializeUtil.serialize(loginUser));
+        }finally {
+            if(jedis != null){
+                jedis.close();
+            }
+        }
     }
 
     /**
@@ -183,9 +217,8 @@ public class TokenServiceJWTImpl implements ITokenService {
             Map<String, Object> jwtClaims = Jwts.parser().setSigningKey(getKeyInstance()).parseClaimsJws(jwtToken).getBody();
             return MapUtils.getString(jwtClaims, LOGIN_USER_KEY);
         } catch (ExpiredJwtException e) {
-            log.error("{}已过期", jwtToken);
+            throw new RuntimeException("token已过期");
         } catch (Exception e) {
-            log.error("{}", e);
         }
         return null;
     }

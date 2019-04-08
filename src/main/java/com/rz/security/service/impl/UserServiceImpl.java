@@ -25,8 +25,6 @@ import java.util.UUID;
 @Service
 public class UserServiceImpl implements IUserService {
 
-    private static final Logger log = LoggerFactory.getLogger("adminLogger");
-
     @Autowired
     private UserMapper userMapper;
 
@@ -80,6 +78,5 @@ public class UserServiceImpl implements IUserService {
         }
         user.setPassword(bCryptPasswordEncoder.encode(newPassword));
         userMapper.updateUser(user);
-        log.debug("修改{}的密码", username);
     }
 }
