@@ -13,7 +13,7 @@
         <result column="sex" property="sex" jdbcType="INTEGER" />
         <result column="status" property="status" jdbcType="INTEGER" />
         <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
-        <result column="update_time" property="UpdateTime" jdbcType="TIMESTAMP" />
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
     </resultMap>
 
     <sql id="userColumn">
@@ -93,7 +93,7 @@
             <if test="status != null">
                 status = #{status},
             </if>
-            update_time = #{updateTime}
+            update_time = now()
         </set>
         where id = #{id}
     </update>

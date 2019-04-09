@@ -8,7 +8,7 @@
 		<result column="k" property="key" jdbcType="VARCHAR"/>
 		<result column="val" property="value" jdbcType="VARCHAR"/>
 		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
-		<result column="update_time" property="UpdateTime" jdbcType="TIMESTAMP" />
+		<result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
 	</resultMap>
 
 	<sql id="BaseColumn">

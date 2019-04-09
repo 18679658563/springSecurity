@@ -76,8 +76,10 @@ public class DictController {
 	}
 
 	@PreAuthorize("hasAuthority('sys:dict:query')")
-	@GetMapping
-	public List<Dict> listByType(Dict dict) {
+	@GetMapping(params = "type")
+	public List<Dict> listByType(String type) {
+		Dict dict = new Dict();
+		dict.setType(type);
 		return dictMapper.selectByDict(dict);
 	}
 

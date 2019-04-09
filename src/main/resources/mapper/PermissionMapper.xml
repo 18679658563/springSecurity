@@ -11,7 +11,7 @@
         <result column="permission" property="permission" jdbcType="VARCHAR" />
         <result column="sort" property="sort" jdbcType="INTEGER" />
         <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
-        <result column="update_time" property="UpdateTime" jdbcType="TIMESTAMP" />
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
     </resultMap>
 
     <sql id="columnRole">

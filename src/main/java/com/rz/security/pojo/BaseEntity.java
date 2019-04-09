@@ -19,6 +19,6 @@ public class BaseEntity<ID extends Serializable> implements Serializable {
 
     private ID id;
     private Date createTime;
-    private Date UpdateTime;
+    private Date updateTime;
 
 }

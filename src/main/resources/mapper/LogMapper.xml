@@ -11,7 +11,7 @@
 		<result column="time" property="time" jdbcType="VARCHAR"/>
 		<result column="exception_detail" property="exceptionDetail" jdbcType="VARCHAR"/>
 		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
-		<result column="update_time" property="UpdateTime" jdbcType="TIMESTAMP" />
+		<result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
 	</resultMap>
 
 	<insert id="insertLog">

@@ -16,7 +16,7 @@ function showDictSelect(id, type, all) {
 
 function getDict(type) {
 	var v = sessionStorage[type];
-	if (v == null || v == "") {
+	console.info(v);
 		$.ajax({
 			type : 'get',
 			url : '/dicts?type=' + type,
@@ -24,13 +24,11 @@ function getDict(type) {
 			success : function(data) {
 				v = {};
 				$.each(data, function(i, d) {
-					v[d.k] = d.val;
+					v[d.key] = d.value;
 				});
 
 				sessionStorage[type] = JSON.stringify(v);
 			}
 		});
-	}
-
 	return JSON.parse(sessionStorage[type]);
 }
