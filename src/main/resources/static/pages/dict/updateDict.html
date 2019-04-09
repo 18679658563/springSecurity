@@ -18,13 +18,13 @@
 			<div class='form-group'>
 				<label class='col-md-2 control-label'>k</label>
 				<div class='col-md-10'>
-					<input class='form-control' placeholder='k' type='text' name='k' id='k' readonly="readonly">
+					<input class='form-control' placeholder='key' type='text' name='key' id='key' readonly="readonly">
 				</div>
 			</div>
 			<div class='form-group'>
 				<label class='col-md-2 control-label'>val</label>
 				<div class='col-md-10'>
-					<input class='form-control' placeholder='val' type='text' name='val' id='val' data-bv-notempty='true' data-bv-notempty-message='val 不能为空'>
+					<input class='form-control' placeholder='value' type='text' name='vauel' id='value' data-bv-notempty='true' data-bv-notempty-message='value 不能为空'>
 				</div>
 			</div>
 
@@ -64,8 +64,8 @@
 					success : function(data) {
 						$('#id').val(data.id);
 						$('#type').val(data.type);
-						$('#k').val(data.k);
-						$('#val').val(data.val);
+						$('#key').val(data.key);
+						$('#value').val(data.value);
 
 					}
 				});

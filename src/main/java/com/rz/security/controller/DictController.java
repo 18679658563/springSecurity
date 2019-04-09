@@ -25,7 +25,7 @@ public class DictController {
 	@PreAuthorize("hasAuthority('sys:dict:add')")
 	@PostMapping
 	public Dict save(@RequestBody Dict dict) {
-		Dict d = dictDao.getByTypeAndK(dict.getType(), dict.getK());
+		Dict d = dictDao.getByTypeAndK(dict.getType(), dict.getKey());
 		if (d != null) {
 			throw new IllegalArgumentException("类型和key已存在");
 		}
