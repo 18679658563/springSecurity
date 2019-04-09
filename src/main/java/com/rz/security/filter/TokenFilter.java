@@ -2,7 +2,6 @@ package com.rz.security.filter;
 
 import com.rz.security.dto.LoginUser;
 import com.rz.security.service.ITokenService;
-import com.rz.security.service.impl.UserDetailsServiceImpl;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

@@ -1,4 +1,4 @@
-package com.rz.security.service.impl;
+package com.rz.security.config;
 
 import com.rz.security.dto.LoginUser;
 import com.rz.security.mapper.*;
