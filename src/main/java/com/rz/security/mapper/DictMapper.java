@@ -9,26 +9,18 @@ import java.util.Map;
 @Mapper
 public interface DictMapper {
 
-	@Select("select * from t_dict t where t.id = #{id}")
-	Dict getById(String id);
+	Dict selectById(String id);
 
-	@Delete("delete from t_dict where id = #{id}")
 	int delete(String id);
 
 	int update(Dict dict);
 
-	@Options(useGeneratedKeys = true, keyProperty = "id")
-	@Insert("insert into t_dict(type, k, val, createTime, updateTime) values(#{type}, #{k}, #{val}, now(), now())")
-	int save(Dict dict);
+	int insertDict(Dict dict);
 
 	int count(@Param("params") Map<String, Object> params);
 
 	List<Dict> list(@Param("params") Map<String, Object> params, @Param("offset") Integer offset,
                     @Param("limit") Integer limit);
 
-	@Select("select * from t_dict t where t.type = #{type} and k = #{k}")
-	Dict getByTypeAndK(@Param("type") String type, @Param("k") String k);
-
-	@Select("select * from t_dict t where t.type = #{type}")
-	List<Dict> listByType(String type);
+	List<Dict> selectByDict(Dict dict);
 }

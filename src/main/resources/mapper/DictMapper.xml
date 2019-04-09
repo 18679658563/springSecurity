@@ -23,14 +23,28 @@
 			<if test="params.type != null and params.type != ''">
 				and type = #{params.type}
 			</if>
-			<if test="params.k != null and params.k != ''">
-				and k = #{params.k}
+			<if test="params.key != null and params.kwy != ''">
+				and k = #{params.key}
 			</if>
-			<if test="params.val != null and params.val != ''">
-				and val = #{params.val}
+			<if test="params.value != null and params.value != ''">
+				and val = #{params.value}
 			</if>
 		</where>
 	</sql>
+	<select id="selectById" resultMap="BaseModel">
+		select
+		 <include refid="BaseColumn"/>
+		 	from t_dict t where t.id = #{id}
+	</select>
+
+	<select id="selectByDict" resultMap="BaseModel">
+		select
+		  <include refid="BaseColumn"/>
+		from t_dict t where t.type = #{type}
+			<if test="key != null and key != '' ">
+				and k = #{key}
+			</if>
+	</select>
 
 	<select id="count" resultType="int">
 		select count(1) from t_dict t
@@ -46,21 +60,31 @@
 		limit #{offset}, #{limit}
 	</select>
 
+	<insert id="insertDict">
+		insert into
+		t_dict(id,type, k, val, create_time, update_time)
+		values(#{id},#{type}, #{key}, #{value}, now(), now())
+	</insert>
+
 	<update id="update">
 		update t_dict t
 		<set>
 			<if test="type != null">
 				type = #{type},
 			</if>
-			<if test="k != null">
-				k = #{k},
+			<if test="key != null">
+				k = #{key},
 			</if>
-			<if test="val != null">
-				val = #{val},
+			<if test="value != null">
+				val = #{value},
 			</if>
-			updateTime = now()
+			update_time = now()
 		</set>
 		where t.id = #{id}
 	</update>
+
+	<delete id="delete">
+		delete from t_dict where id = #{id}
+	</delete>
 
 </mapper>
