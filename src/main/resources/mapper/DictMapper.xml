@@ -2,6 +2,18 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.rz.security.mapper.DictMapper">
+	<resultMap id="BaseModel" type="com.rz.security.pojo.Dict">
+		<id column="id" property="id" jdbcType="CHAR" />
+		<result column="type" property="type" jdbcType="VARCHAR"/>
+		<result column="k" property="key" jdbcType="VARCHAR"/>
+		<result column="val" property="value" jdbcType="VARCHAR"/>
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="update_time" property="UpdateTime" jdbcType="TIMESTAMP" />
+	</resultMap>
+
+	<sql id="BaseColumn">
+		id,type,k,val,create_time,update_time
+	</sql>
 
 	<sql id="where">
 		<where>
@@ -17,7 +29,6 @@
 			<if test="params.val != null and params.val != ''">
 				and val = #{params.val}
 			</if>
-
 		</where>
 	</sql>
 
@@ -26,8 +37,10 @@
 		<include refid="where" />
 	</select>
 
-	<select id="list" resultType="Dict">
-		select * from t_dict t
+	<select id="list" resultMap="BaseModel">
+		select
+		<include refid="BaseColumn"/>
+		from t_dict t
 		<include refid="where" />
 		${params.orderBy}
 		limit #{offset}, #{limit}
@@ -46,9 +59,7 @@
 				val = #{val},
 			</if>
 			updateTime = now()
-
 		</set>
-
 		where t.id = #{id}
 	</update>
 

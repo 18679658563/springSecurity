@@ -15,7 +15,7 @@
 	</resultMap>
 
 	<insert id="insertLog">
-		insert into t_log
+		insert into sys_log
 		<trim prefix="(" suffix=")" suffixOverrides="," >
 			<if test="id != null and id != '' " >
 				id,
