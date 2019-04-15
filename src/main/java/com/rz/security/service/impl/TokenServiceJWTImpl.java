@@ -126,7 +126,7 @@ public class TokenServiceJWTImpl implements ITokenService {
                     log.setType("INFO");
                     log.setUsername(loginUser.getUsername());
                     logService.save(log);
-                    jedis.del(key.getBytes());
+                    jedis.del(key);
                     return true;
                 }
             }finally{
@@ -134,8 +134,6 @@ public class TokenServiceJWTImpl implements ITokenService {
                     jedis.close();
                 }
             }
-
-
         }
         return false;
     }
@@ -152,12 +150,12 @@ public class TokenServiceJWTImpl implements ITokenService {
         Jedis jedis = null;
         try{
             jedis = pool.getResource();
-            byte[] b = jedis.get(key.getBytes());
-            if(b != null && b.length > 0){
+            String b = jedis.get(key);
+            if(StringUtils.isNotEmpty(b)){
                 jedis.del(key.getBytes());
             }
-            System.out.println(key+"\n"+SerializeUtil.serialize(loginUser));
             jedis.set(key.getBytes(),SerializeUtil.serialize(loginUser));
+            jedis.expire(key.getBytes(), 2*60*60);//设置key值存在时间2小时,2小时后自动清理key
         }finally {
             if(jedis != null){
                 jedis.close();
