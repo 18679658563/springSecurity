@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" type="text/css" media="screen" href="../../css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" media="screen" href="../../css/dataTables.bootstrap.min.css">
+<link rel="stylesheet" type="text/css" media="screen" href="../../layui/css/layui.css">
+</head>
+<body>
+    <div>
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <header style="height: 100%">
+                    <div align="left">
+	                    <table style="width: 100%">
+	                   		<tr>
+	                   			<td>
+		                   			<form class="form-inline" onsubmit="return false">
+										<div class="form-group">
+											定时任务名称：
+											<input id="jobName" type="text" class="form-control" placeholder="定时任务名称">
+                                            是否启用：
+                                            <select class="form-control input-sm" id="isPause">
+                                                <option value='' selected = "selected">全部</option>
+                                                <option value='1'>启用中</option>
+                                                <option value='0'>关闭</option>
+                                            </select>
+											<button id="searchBt" class="layui-btn layui-btn-sm" permission="sys:quartz:query"><i class="layui-icon">&#xe615;</i>搜索</button>
+										</div>
+									</form>
+	                   			</td>
+	                   			<td align="right">
+	                   				<button class="layui-btn layui-btn-sm" onclick="location.href='addQuartz.html'" permission="sys:quartz:add">
+                                      <i class="layui-icon">&#xe608;</i> 添加
+                                    </button>
+	                   			</td>
+	                   		</tr> 
+	                    </table>
+					</div>
+                </header>
+                
+                <div>
+                    <div class="widget-body no-padding">
+                        <table id="dt-table" class="table table-striped table-bordered table-hover" style="width:100%">
+                            <thead>
+                                <tr>
+                                </tr>                       
+                                <tr>
+                                    <th>beanName</th>
+									<th>cron表达式</th>
+                                    <th>状态</th>
+                                    <th>定时任务名称</th>
+                                    <th>描述</th>
+                                    <th>创建时间</th>
+									<th>修改时间</th>
+									<th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+        </div>
+    </div>
+</body>
+</html>
+
+<script type="text/javascript" src="../../js/libs/jquery-2.1.1.min.js"></script>
+<script type="text/javascript" src="../../js/jq.js"></script>
+<script type="text/javascript" src="../../js/plugin/datatables/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="../../js/plugin/datatables/dataTables.bootstrap.min.js"></script>
+<script type="text/javascript" src="../../layui/layui.js"></script>
+<script type="text/javascript" src="../../js/my/permission.js"></script>
+<script type="text/javascript">
+var pers = checkPermission();
+
+var example;
+function init(){
+	example = 
+    	$('#dt-table').DataTable({
+        	"searching": false,
+        	"processing": false,
+        	"serverSide" : true,
+        	"language": {
+                "url": "/js/plugin/datatables/Chinese.lang"
+            },
+        	"ajax": {
+        		"url" : "/quartzs",
+        		"type":"get",
+        		"data":function(d){
+    				d.jobName = $('#jobName').val();
+                    d.isPause = $('#isPause').val();
+        		},
+    			"error":function(xhr, textStatus, errorThrown){
+    				var msg = xhr.responseText;
+    				console.log(msg);
+    				var response = JSON.parse(msg);
+    				var code = response.code;
+    				var message = response.message;
+    				if (code == 400) {
+    					layer.msg(message);
+    				} else if (code == 401) {
+    					localStorage.removeItem("token");
+    					layer.msg("token过期，请先登录", {shift: -1, time: 1000}, function(){
+    						location.href = '/login.html';
+                        });
+    				} else if (code == 403) {
+    					console.log("未授权:" + message);
+    					layer.msg('未授权');
+    				} else if (code == 500) {
+    					layer.msg('系统错误：' + message);
+    				}
+    			}
+        	},
+        	"dom": "<'dt-toolbar'r>t<'dt-toolbar-footer'<'col-sm-10 col-xs-12 hidden-xs'i><'col-xs-12 col-sm-10' p v>>",	
+            "columns": [
+                { "data": "beanName", "defaultContent": ""},
+                { "data": "cronExpression", "defaultContent": ""},
+                { "data": "isPause", "defaultContent": ""},
+                { "data": "jobName", "defaultContent": ""},
+                { "data": "remark", "defaultContent": ""},
+                { "data": "createTime", "defaultContent": ""},
+                { "data": "updateTime", "defaultContent": ""},
+                { 
+                	"data": "", 
+                	"defaultContent": "",
+                	"orderable":false,
+                	"render": function (data, type, row) {
+                        var id = row['id'];
+                        var isPause = row['isPause'];
+                        console.info(isPause)
+                        var pause = buttonModify(id, "sys:quartz:del", pers,isPause);
+                		var href = "updateQuartz.html?id=" + id;
+                        var edit = buttonEdit(href, "sys:quartz:update", pers);
+                		var del = buttonDel(id, "sys:quartz:del", pers);
+                        return pause + edit + del;
+                  	}
+                },
+            ],
+            "order": [[1, "desc" ]]
+        } );
+}
+
+layui.use('layer', function(){
+    var layer = layui.layer;
+});
+
+function del(id){
+    layer.confirm('确定要删除吗？', {
+        btn : [ '确定', '取消' ]
+    }, function() {
+        $.ajax({
+            type : 'delete',
+            url : '/quartzs/'+id,
+            success : function(data) {
+                example.ajax.reload();
+                layer.msg("删除成功");
+            }
+        });
+
+        layer.close(1);
+    });
+}
+
+
+function onOff(id,isPause){
+    var mess = null;
+    if(isPause == "true"){
+        mess = "关闭";
+    }else{
+        mess = "开启";
+    }
+    layer.confirm("确定"+mess+"吗？", {
+        btn : [ '确定', '取消' ]
+    }, function() {
+        $.ajax({
+            type : 'put',
+            url : '/quartzs/'+id,
+            success : function(data) {
+                example.ajax.reload();
+                layer.msg(mess+"成功");
+            }
+        });
+
+        layer.close(1);
+    });
+}
+
+$("#searchBt").click(function(){
+	example.ajax.reload();
+});
+
+init();
+</script>

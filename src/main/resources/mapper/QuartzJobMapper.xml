@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rz.security.mapper.QuartzJobMapper">
+	<resultMap id="BaseModel" type="com.rz.security.pojo.QuartzJob">
+		<id column="id" property="id" jdbcType="CHAR" />
+		<result column="bean_name" property="beanName" jdbcType="VARCHAR" />
+		<result column="cron_expression" property="cronExpression" jdbcType="VARCHAR" />
+		<result column="is_pause" property="isPause" jdbcType="BIT"/>
+		<result column="job_name" property="jobName" jdbcType="VARCHAR"/>
+		<result column="method_name" property="methodName" jdbcType="VARCHAR"/>
+		<result column="params" property="params" jdbcType="VARCHAR"/>
+		<result column="remark" property="remark" jdbcType="VARCHAR"/>
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+	</resultMap>
+
+	<sql id="baseColumn">
+		id,bean_name,cron_expression,is_pause,job_name,method_name,params,remark,create_time,update_time
+	</sql>
+
+	<select id="selectById" resultMap="BaseModel">
+		select
+		<include refid="baseColumn"/>
+		from t_quartz_job
+		where id = #{id}
+	</select>
+
+	<select id="selectByQuartzJob" resultMap="BaseModel">
+		select
+		<include refid="baseColumn"/>
+		from t_quartz_job
+		<where>
+			<if test="beanName != null and beanName != '' " >
+				bean_name like concat('%',#{beanName},'%')
+			</if>
+			<if test="isPause != null  " >
+				 and is_pause = #{isPause}
+			</if>
+			<if test="jobName != null and jobName != '' " >
+				and job_name like concat('%',#{jobName},'%')
+			</if>
+		</where>
+	</select>
+
+	<select id="count" resultType="java.lang.Integer">
+		select count(id)
+			from t_quartz_job
+		<where>
+			<if test="params.beanName != null and params.beanName != '' " >
+				bean_name like concat('%',#{params.beanName},'%')
+			</if>
+			<if test="params.isPause != null and params.isPause != '' " >
+				and is_pause = #{params.isPause}
+			</if>
+			<if test="params.jobName != null and params.jobName != '' " >
+				and job_name like concat('%',#{params.jobName},'%')
+			</if>
+		</where>
+	</select>
+
+	<select id="selectByPage" resultMap="BaseModel">
+		select
+		<include refid="baseColumn"/>
+		from t_quartz_job
+		<where>
+			<if test="params.beanName != null and params.beanName != '' " >
+				bean_name like concat('%',#{params.beanName},'%')
+			</if>
+			<if test="params.isPause != null and params.isPause != '' " >
+				and is_pause = #{params.isPause}
+			</if>
+			<if test="params.jobName != null and params.jobName != '' " >
+				and job_name like concat('%',#{params.jobName},'%')
+			</if>
+		</where>
+		order by update_time
+		limit #{offset}, #{limit}
+	</select>
+
+
+	<insert id="insert">
+		insert into t_quartz_job
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="id != null and id != '' " >
+				id,
+			</if>
+			<if test="beanName != null and beanName != '' " >
+				bean_name,
+			</if>
+			<if test="cronExpression != null and cronExpression != '' " >
+				cron_expression,
+			</if>
+			<if test="isPause != null  " >
+				is_pause,
+			</if>
+			<if test="jobName != null and jobName != '' " >
+				job_name,
+			</if>
+			<if test="methodName != null and methodName != '' " >
+				method_name,
+			</if>
+			<if test="params != null and params != '' " >
+				params,
+			</if>
+			<if test="remark != null and remark != ''  " >
+				remark,
+			</if>
+			create_time,update_time
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+			<if test="id != null and id != '' " >
+				#{id},
+			</if>
+			<if test="beanName != null and beanName != '' " >
+				#{beanName},
+			</if>
+			<if test="cronExpression != null and cronExpression != '' " >
+				#{cronExpression},
+			</if>
+			<if test="isPause != null  " >
+				#{isPause},
+			</if>
+			<if test="jobName != null and jobName != '' " >
+				#{jobName},
+			</if>
+			<if test="methodName != null and methodName != '' " >
+				#{methodName},
+			</if>
+			<if test="params != null and params != '' " >
+				#{params},
+			</if>
+			<if test="remark != null and remark != '' " >
+				#{remark},
+			</if>
+			now(),now()
+		</trim>
+	</insert>
+
+	<update id="update">
+		update t_quartz_job
+		<set>
+			<if test="beanName != null and beanName != '' ">
+				bean_name = #{beanName},
+			</if>
+			<if test="cronExpression != null and cronExpression != '' ">
+				cron_expression = #{cronExpression},
+			</if>
+			<if test="isPause != null ">
+				is_pause = #{isPause},
+			</if>
+			<if test="jobName != null and jobName != '' ">
+				job_name = #{jobName},
+			</if>
+			<if test="methodName != null and methodName != '' ">
+				method_name = #{methodName},
+			</if>
+			<if test="params != null and params != '' ">
+				params = #{params},
+			</if>
+			<if test="remark != null and remark != '' ">
+				remark = #{remark},
+			</if>
+			update_time = now()
+		</set>
+		where id = #{id}
+	</update>
+
+	<delete id="delete">
+		delete from t_quartz_job where id = #{id}
+	</delete>
+</mapper>

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" media="screen" href="../../css/bootstrap.min.css">
+
+<body>
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+	<form class="form-horizontal" onsubmit="return false" id="form">
+		<fieldset>
+			<div class="form-group">
+				<label class="col-md-2 control-label">beanName</label>
+				<div class="col-md-10">
+					<input class="form-control" placeholder="beanName" type="text" name="beanName"
+						data-bv-notempty="true"
+						data-bv-notempty-message="beanName 不能为空">
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="col-md-2 control-label">cron表达式</label>
+				<div class="col-md-10">
+					<input class="form-control" placeholder="cron表达式" type="text" name="cronExpression"
+						data-bv-notempty="true"
+						data-bv-notempty-message="cron表达式 不能为空">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-md-2 control-label">是否启用</label>
+				<div class="col-md-10" style="width: 100px">
+					<select class="form-control input-sm" name="isPause" id="isPause">
+						<option value="true" selected="selected">启用</option>
+						<option value="false" >不启用</option>
+					</select>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-md-2 control-label">定时任务名称</label>
+				<div class="col-md-10">
+					<input class="form-control" placeholder="定时任务名称"  name="jobName" id=jobName">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-md-2 control-label">方法名</label>
+				<div class="col-md-10">
+					<input class="form-control" placeholder="方法名"  name="methodName" id=methodName">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-md-2 control-label">方法参数</label>
+				<div class="col-md-10">
+					<input class="form-control" placeholder="方法参数"  name="params" id=params">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-md-2 control-label">描述</label>
+				<div class="col-md-10">
+					<input class="form-control" placeholder="描述"  name="remark" id=remark">
+				</div>
+			</div>
+
+			<div class="form-actions">
+				<div class="row" align="center">
+					<div class="col-md-12">
+					    <button class="btn btn-primary" onclick="location.href='quartzList.html'">返回</button>
+						<button class="btn btn-primary" type="submit" onclick="add()">
+							<i class="fa fa-save"></i> 保存
+						</button>
+					</div>
+				</div>
+			</div>
+
+		</fieldset>
+	</form>
+</div>
+	<script type="text/javascript" src="../../js/libs/jquery-2.1.1.min.js"></script>
+	<script type="text/javascript" src="../../js/jq.js"></script>
+	<script type="text/javascript" src="../../js/plugin/bootstrapvalidator/bootstrapValidator.min.js"></script>
+	<script type="text/javascript" src="../../js/common.js"></script>
+	<script type="text/javascript" src="../../layui/layui.js"></script>
+	<script type="text/javascript">
+		layui.use(['layer','laydate'], function(){
+		    var layer = layui.layer;
+		});
+
+		function add() {
+            $('#form').bootstrapValidator();
+			var bootstrapValidator = $("#form").data('bootstrapValidator');
+			bootstrapValidator.validate();
+		    if(!bootstrapValidator.isValid()){
+			   return;
+		    }
+		    
+		    var formdata = $("#form").serializeObject();
+
+			$.ajax({
+				type : 'post',
+				url : '/quartzs',
+				contentType: "application/json; charset=utf-8",  
+				data : JSON.stringify(formdata),
+				success : function(data) {
+					layer.msg("添加成功", {shift: -1, time: 1000}, function(){
+                        location.href = "quartzList.html";
+                    });
+				}
+			});
+		}
+		
+	</script>
+</body>
+</html>

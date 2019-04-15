@@ -28,9 +28,24 @@ function buttonDel(data, permission, pers){
 			return "";
 		}
 	}
-	
 	var btn = $("<button class='layui-btn layui-btn-xs' title='删除' onclick='del(\"" + data +"\")'><i class='layui-icon'>&#xe640;</i></button>");
 	return btn.prop("outerHTML");
+}
+
+function buttonModify(data, permission, pers,isPause){
+    if(permission != ""){
+        if ($.inArray(permission, pers) < 0) {
+            return "";
+        }
+    }
+    if (isPause == true){
+        console.info("111"+isPause);
+        var btn = $("<button class='layui-btn layui-btn-xs' title='关闭' onclick='onOff(\"" + data +"\",\"" + isPause +"\")'><i class='layui-icon'>关闭</i></button>");
+	}else{
+        console.info("2222"+isPause);
+        var btn = $("<button class='layui-btn layui-btn-xs' title='开启' onclick='onOff(\"" + data +"\",\"" + isPause +"\")'><i class='layui-icon'>开启</i></button>");
+    }
+    return btn.prop("outerHTML");
 }
 
 function buttonEdit(href, permission, pers){

@@ -65,5 +65,9 @@
 			now(),now()
 		</trim>
 	</insert>
+	
+	<delete id="deleteThree">
+		delete from sys_log where DateDiff(now(),create_time) &gt;= 3
+	</delete>
 
 </mapper>

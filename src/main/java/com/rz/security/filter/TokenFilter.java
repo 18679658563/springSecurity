@@ -42,7 +42,6 @@ public class TokenFilter extends OncePerRequestFilter {
         if(StringUtils.isNotBlank(token)){
             LoginUser loginUser = tokenService.getLoginUser(token);
             if(loginUser != null){
-                System.out.println("\ntoken："+token+"：\ngetServletURL："+httpServletRequest.getRequestURL());
                 loginUser = checkLoginTime(loginUser);
                 UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(loginUser,null,loginUser.getAuthorities());
                 SecurityContextHolder.getContext().setAuthentication(authenticationToken);

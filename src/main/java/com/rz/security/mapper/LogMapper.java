@@ -24,6 +24,12 @@ public interface LogMapper {
      */
     int insertLog(Log log);
 
+    /**
+     * 删除三天前信息
+     * @return
+     */
+    int deleteThree();
+
 
     /**
      * 根据条件分页查询角色信息
