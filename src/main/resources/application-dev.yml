@@ -55,7 +55,8 @@ mybatis:
   mapper-locations: classpath:mapper/*
   configuration:
     mapUnderscoreToCamelCase: true
-
+file:
+  path: ${file-path:/home/silence/workspace/spring-security/src/main/resources/static/img/}
 token:
   expire:
     seconds: 7200

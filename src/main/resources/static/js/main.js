@@ -76,31 +76,20 @@ function showLoginInfo(){
 		url : '/users/current',
 		async : false,
 		success : function(data) {
+			console.info(data);
 			$(".admin-header-user span").text(data.nickname);
 			
 			var pro = window.location.protocol;
 			var host = window.location.host;
-			var domain = pro + "//" + host;
-			
-			var sex = data.sex;
+			var domain = pro + "//" + host+"/";
 			var url = data.headImgUrl;
-			if(url == null || url == ""){
-				if(sex == 1){
-					url = "/img/avatars/sunny.png";
-				} else {
-					url = "/img/avatars/1.png";
-				}
-				
-				url = domain + url;
-			} else {
-				url = domain + "/statics" + url;
-			}
+            url = domain + "img/" + url;
+            console.info(url);
 			var img = $(".admin-header-user img");
 			img.attr("src", url);
 		}
 	});
 }
-
 
 function logout(){
 	$.ajax({
