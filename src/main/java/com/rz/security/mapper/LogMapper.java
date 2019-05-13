@@ -1,6 +1,6 @@
 package com.rz.security.mapper;
 
-import com.rz.security.pojo.Log;
+import com.rz.security.model.pojo.Log;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 

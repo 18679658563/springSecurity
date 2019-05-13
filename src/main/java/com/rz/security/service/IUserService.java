@@ -1,7 +1,7 @@
 package com.rz.security.service;
 
-import com.rz.security.dto.UserDto;
-import com.rz.security.pojo.User;
+import com.rz.security.model.dto.UserDto;
+import com.rz.security.model.pojo.User;
 
 /**
  * Created with IntelliJ IDEA.

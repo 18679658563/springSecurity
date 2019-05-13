@@ -1,6 +1,6 @@
-package com.rz.security.dto;
+package com.rz.security.model.dto;
 
-import com.rz.security.pojo.Permission;
+import com.rz.security.model.pojo.Permission;
 import lombok.Data;
 
 import java.util.List;

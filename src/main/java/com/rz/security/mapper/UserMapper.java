@@ -1,6 +1,6 @@
 package com.rz.security.mapper;
 
-import com.rz.security.pojo.User;
+import com.rz.security.model.pojo.User;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;

@@ -1,6 +1,6 @@
 package com.rz.security.config.quartz;
 
-import com.rz.security.pojo.QuartzJob;
+import com.rz.security.model.pojo.QuartzJob;
 import lombok.extern.slf4j.Slf4j;
 import org.quartz.*;
 import org.quartz.impl.triggers.CronTriggerImpl;

@@ -1,19 +1,15 @@
 package com.rz.security.service.impl;
 
-import com.rz.security.dto.UserDto;
+import com.rz.security.model.dto.UserDto;
 import com.rz.security.mapper.UserMapper;
-import com.rz.security.pojo.User;
+import com.rz.security.model.pojo.User;
 import com.rz.security.service.IUserService;
 import com.rz.security.tools.UUIDUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
-
-import java.util.UUID;
 
 /**
  * Created with IntelliJ IDEA.

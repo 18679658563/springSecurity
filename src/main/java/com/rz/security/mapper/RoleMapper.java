@@ -1,7 +1,7 @@
 package com.rz.security.mapper;
 
 
-import com.rz.security.pojo.Role;
+import com.rz.security.model.pojo.Role;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;

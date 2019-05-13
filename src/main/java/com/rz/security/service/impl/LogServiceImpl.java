@@ -1,14 +1,13 @@
 package com.rz.security.service.impl;
 
 import com.rz.security.mapper.LogMapper;
-import com.rz.security.pojo.Log;
+import com.rz.security.model.pojo.Log;
 import com.rz.security.service.ILogService;
 import com.rz.security.tools.IpUtil;
 import com.rz.security.tools.UUIDUtil;
 import com.rz.security.tools.UserUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;

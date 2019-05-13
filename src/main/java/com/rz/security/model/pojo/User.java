@@ -1,4 +1,4 @@
-package com.rz.security.pojo;
+package com.rz.security.model.pojo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;

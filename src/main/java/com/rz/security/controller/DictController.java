@@ -5,7 +5,7 @@ import com.rz.security.mapper.DictMapper;
 import com.rz.security.page.PageTableHandler;
 import com.rz.security.page.PageTableRequest;
 import com.rz.security.page.PageTableResponse;
-import com.rz.security.pojo.Dict;
+import com.rz.security.model.pojo.Dict;
 import com.rz.security.tools.UUIDUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;

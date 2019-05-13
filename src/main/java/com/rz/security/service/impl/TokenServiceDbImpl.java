@@ -1,10 +1,10 @@
 package com.rz.security.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
-import com.rz.security.dto.LoginUser;
-import com.rz.security.dto.TokenDto;
+import com.rz.security.model.dto.LoginUser;
+import com.rz.security.model.dto.TokenDto;
 import com.rz.security.mapper.TokenMapper;
-import com.rz.security.pojo.Token;
+import com.rz.security.model.pojo.Token;
 import com.rz.security.service.ITokenService;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;

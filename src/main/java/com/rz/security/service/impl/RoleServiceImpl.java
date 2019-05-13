@@ -1,8 +1,8 @@
 package com.rz.security.service.impl;
 
-import com.rz.security.dto.RoleDto;
+import com.rz.security.model.dto.RoleDto;
 import com.rz.security.mapper.RoleMapper;
-import com.rz.security.pojo.Role;
+import com.rz.security.model.pojo.Role;
 import com.rz.security.service.IRoleService;
 import com.rz.security.tools.UUIDUtil;
 import org.slf4j.Logger;
@@ -14,7 +14,6 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import java.util.List;
-import java.util.UUID;
 
 /**
  * Created with IntelliJ IDEA.

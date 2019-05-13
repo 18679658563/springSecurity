@@ -5,7 +5,7 @@ import com.rz.security.mapper.QuartzJobMapper;
 import com.rz.security.page.PageTableHandler;
 import com.rz.security.page.PageTableRequest;
 import com.rz.security.page.PageTableResponse;
-import com.rz.security.pojo.QuartzJob;
+import com.rz.security.model.pojo.QuartzJob;
 import com.rz.security.service.IQuartzJobService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;

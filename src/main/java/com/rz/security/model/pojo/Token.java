@@ -1,4 +1,4 @@
-package com.rz.security.pojo;
+package com.rz.security.model.pojo;
 
 import lombok.Data;
 

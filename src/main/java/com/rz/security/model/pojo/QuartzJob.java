@@ -1,24 +1,24 @@
-package com.rz.security.pojo;
+package com.rz.security.model.pojo;
 
 import lombok.Data;
 
 /***
  * Created with IntelliJ IDEA.
- * Description: 定时任务日志
+ * Description: 定时任务类
  * User: silence
  * Date: 2019-04-09
- * Time: 下午4:35
+ * Time: 下午3:43
  */
 @Data
-public class QuartzLog extends BaseEntity<String>{
+public class QuartzJob extends BaseEntity<String> {
+
+    public static final String JOB_KEY = "JOB_KEY";
 
     private String beanName;
 
     private String cronExpression;
 
-    private String exceptionDetail;
-
-    private Boolean isSuccess;
+    private Boolean isPause;
 
     private String jobName;
 
@@ -26,5 +26,5 @@ public class QuartzLog extends BaseEntity<String>{
 
     private String params;
 
-    private Long time;
+    private String remark;
 }

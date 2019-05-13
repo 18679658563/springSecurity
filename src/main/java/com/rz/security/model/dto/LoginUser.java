@@ -1,8 +1,8 @@
-package com.rz.security.dto;
+package com.rz.security.model.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.rz.security.pojo.Permission;
-import com.rz.security.pojo.User;
+import com.rz.security.model.pojo.Permission;
+import com.rz.security.model.pojo.User;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

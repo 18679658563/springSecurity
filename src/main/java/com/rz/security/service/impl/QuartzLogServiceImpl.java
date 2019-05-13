@@ -1,7 +1,7 @@
 package com.rz.security.service.impl;
 
 import com.rz.security.mapper.QuartzLogMapper;
-import com.rz.security.pojo.QuartzLog;
+import com.rz.security.model.pojo.QuartzLog;
 import com.rz.security.service.IQuartzLogService;
 import com.rz.security.tools.UUIDUtil;
 import org.springframework.beans.factory.annotation.Autowired;

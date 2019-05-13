@@ -1,14 +1,12 @@
 package com.rz.security.config.quartz;
 
-import com.rz.security.mapper.QuartzLogMapper;
-import com.rz.security.pojo.QuartzJob;
-import com.rz.security.pojo.QuartzLog;
+import com.rz.security.model.pojo.QuartzJob;
+import com.rz.security.model.pojo.QuartzLog;
 import com.rz.security.service.IQuartzJobService;
 import com.rz.security.service.IQuartzLogService;
 import com.rz.security.tools.SpringContextHolder;
 import com.rz.security.tools.ThrowUtil;
 import org.quartz.JobExecutionContext;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.quartz.QuartzJobBean;
 

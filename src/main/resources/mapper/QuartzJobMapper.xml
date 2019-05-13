@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.rz.security.mapper.QuartzJobMapper">
-	<resultMap id="BaseModel" type="com.rz.security.pojo.QuartzJob">
+	<resultMap id="BaseModel" type="com.rz.security.model.pojo.QuartzJob">
 		<id column="id" property="id" jdbcType="CHAR" />
 		<result column="bean_name" property="beanName" jdbcType="VARCHAR" />
 		<result column="cron_expression" property="cronExpression" jdbcType="VARCHAR" />

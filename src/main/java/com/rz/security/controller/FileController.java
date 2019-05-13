@@ -1,7 +1,7 @@
 package com.rz.security.controller;
 
 import com.rz.security.annotation.LogAOP;
-import com.rz.security.pojo.File;
+import com.rz.security.model.pojo.File;
 import com.rz.security.service.IFileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;

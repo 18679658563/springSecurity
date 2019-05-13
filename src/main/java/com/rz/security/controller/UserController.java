@@ -1,18 +1,14 @@
 package com.rz.security.controller;
 
 import com.rz.security.annotation.LogAOP;
-import com.rz.security.dto.UserDto;
+import com.rz.security.model.dto.UserDto;
 import com.rz.security.mapper.UserMapper;
 import com.rz.security.page.PageTableHandler;
 import com.rz.security.page.PageTableRequest;
 import com.rz.security.page.PageTableResponse;
-import com.rz.security.pojo.User;
+import com.rz.security.model.pojo.User;
 import com.rz.security.service.IUserService;
 import com.rz.security.tools.UserUtil;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;

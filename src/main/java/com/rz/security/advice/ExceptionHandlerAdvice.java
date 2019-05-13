@@ -1,8 +1,6 @@
 package com.rz.security.advice;
 
-import com.rz.security.dto.ResponseInfo;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.rz.security.model.dto.ResponseInfo;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.access.AccessDeniedException;

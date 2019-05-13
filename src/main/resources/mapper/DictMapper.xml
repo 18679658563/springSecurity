@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.rz.security.mapper.DictMapper">
-	<resultMap id="BaseModel" type="com.rz.security.pojo.Dict">
+	<resultMap id="BaseModel" type="com.rz.security.model.pojo.Dict">
 		<id column="id" property="id" jdbcType="CHAR" />
 		<result column="type" property="type" jdbcType="VARCHAR"/>
 		<result column="k" property="key" jdbcType="VARCHAR"/>

@@ -1,6 +1,6 @@
 package com.rz.security.mapper;
 
-import com.rz.security.pojo.Permission;
+import com.rz.security.model.pojo.Permission;
 import org.apache.ibatis.annotations.*;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
@@ -8,7 +8,6 @@ import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 
 import java.util.List;
-import java.util.Set;
 
 /**
  * Created with IntelliJ IDEA.

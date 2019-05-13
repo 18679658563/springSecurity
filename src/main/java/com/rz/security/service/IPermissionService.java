@@ -1,6 +1,6 @@
 package com.rz.security.service;
 
-import com.rz.security.pojo.Permission;
+import com.rz.security.model.pojo.Permission;
 
 /**
  * Created with IntelliJ IDEA.

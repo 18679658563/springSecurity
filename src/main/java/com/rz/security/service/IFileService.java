@@ -1,6 +1,6 @@
 package com.rz.security.service;
 
-import com.rz.security.pojo.File;
+import com.rz.security.model.pojo.File;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;

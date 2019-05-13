@@ -2,7 +2,7 @@ package com.rz.security.service.impl;
 
 import com.rz.security.config.quartz.QuartzManage;
 import com.rz.security.mapper.QuartzJobMapper;
-import com.rz.security.pojo.QuartzJob;
+import com.rz.security.model.pojo.QuartzJob;
 import com.rz.security.service.IQuartzJobService;
 import com.rz.security.tools.UUIDUtil;
 import org.springframework.beans.factory.annotation.Autowired;

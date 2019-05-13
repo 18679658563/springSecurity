@@ -1,8 +1,8 @@
 package com.rz.security.config;
 
-import com.rz.security.dto.LoginUser;
-import com.rz.security.dto.ResponseInfo;
-import com.rz.security.dto.TokenDto;
+import com.rz.security.model.dto.LoginUser;
+import com.rz.security.model.dto.ResponseInfo;
+import com.rz.security.model.dto.TokenDto;
 import com.rz.security.filter.TokenFilter;
 import com.rz.security.service.ITokenService;
 import com.rz.security.tools.ResponseUtil;

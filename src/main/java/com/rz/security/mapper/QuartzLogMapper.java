@@ -1,6 +1,6 @@
 package com.rz.security.mapper;
 
-import com.rz.security.pojo.QuartzLog;
+import com.rz.security.model.pojo.QuartzLog;
 import org.apache.ibatis.annotations.Mapper;
 
 /***

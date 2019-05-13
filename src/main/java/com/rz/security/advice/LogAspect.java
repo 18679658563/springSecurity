@@ -1,7 +1,7 @@
 package com.rz.security.advice;
 
 import com.rz.security.annotation.LogAOP;
-import com.rz.security.pojo.Log;
+import com.rz.security.model.pojo.Log;
 import com.rz.security.service.ILogService;
 import com.rz.security.tools.ThrowUtil;
 import org.aspectj.lang.JoinPoint;

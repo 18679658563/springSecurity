@@ -1,6 +1,6 @@
 package com.rz.security.service;
 
-import com.rz.security.pojo.QuartzJob;
+import com.rz.security.model.pojo.QuartzJob;
 
 /***
  * Created with IntelliJ IDEA.

@@ -51,7 +51,7 @@ spring:
     #连接超时时间
     timeout: 5000
 mybatis:
-  typeAliasesPackage: com.rz.security.pojo
+  typeAliasesPackage: com.rz.security.model.pojo
   mapper-locations: classpath:mapper/*
   configuration:
     mapUnderscoreToCamelCase: true

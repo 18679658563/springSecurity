@@ -1,7 +1,7 @@
 package com.rz.security.service;
 
-import com.rz.security.dto.LoginUser;
-import com.rz.security.dto.TokenDto;
+import com.rz.security.model.dto.LoginUser;
+import com.rz.security.model.dto.TokenDto;
 
 /**
  * Created with IntelliJ IDEA.

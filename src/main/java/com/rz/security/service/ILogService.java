@@ -1,7 +1,6 @@
 package com.rz.security.service;
 
-import com.rz.security.pojo.Log;
-import org.aspectj.lang.ProceedingJoinPoint;
+import com.rz.security.model.pojo.Log;
 
 /***
  * Created with IntelliJ IDEA.

@@ -1,6 +1,6 @@
 package com.rz.security.tools;
 
-import com.rz.security.dto.LoginUser;
+import com.rz.security.model.dto.LoginUser;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;

@@ -1,7 +1,7 @@
 package com.rz.security.config.quartz;
 
 import com.rz.security.mapper.QuartzJobMapper;
-import com.rz.security.pojo.QuartzJob;
+import com.rz.security.model.pojo.QuartzJob;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;

@@ -1,9 +1,9 @@
 package com.rz.security.config;
 
-import com.rz.security.dto.LoginUser;
+import com.rz.security.model.dto.LoginUser;
 import com.rz.security.mapper.*;
-import com.rz.security.pojo.Permission;
-import com.rz.security.pojo.User;
+import com.rz.security.model.pojo.Permission;
+import com.rz.security.model.pojo.User;
 import com.rz.security.service.IUserService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;

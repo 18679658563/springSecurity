@@ -1,4 +1,4 @@
-package com.rz.security.dto;
+package com.rz.security.model.dto;
 
 import lombok.Data;
 

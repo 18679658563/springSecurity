@@ -97,8 +97,8 @@ public class RedisConfig extends CachingConfigurerSupport {
         template.setValueSerializer(fastJsonRedisSerializer);
         template.setHashValueSerializer(fastJsonRedisSerializer);
         //小范围指定白名单
-        ParserConfig.getGlobalInstance().addAccept("com.rz.security.pojo");
-        ParserConfig.getGlobalInstance().addAccept("com.rz.security.dto");
+        ParserConfig.getGlobalInstance().addAccept("com.rz.security.model.pojo");
+        ParserConfig.getGlobalInstance().addAccept("com.rz.security.model.dto");
         //key的序列化采用StringRedisSerializer
         StringRedisSerializer stringRedisSerializer = new StringRedisSerializer();
         template.setKeySerializer(stringRedisSerializer);

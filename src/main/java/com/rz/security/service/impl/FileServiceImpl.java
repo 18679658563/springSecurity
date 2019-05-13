@@ -1,7 +1,7 @@
 package com.rz.security.service.impl;
 
 import com.rz.security.mapper.FileMapper;
-import com.rz.security.pojo.File;
+import com.rz.security.model.pojo.File;
 import com.rz.security.service.IFileService;
 import com.rz.security.tools.FileUtil;
 import org.springframework.beans.factory.annotation.Autowired;

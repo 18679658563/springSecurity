@@ -1,6 +1,6 @@
 package com.rz.security.service;
 
-import com.rz.security.dto.RoleDto;
+import com.rz.security.model.dto.RoleDto;
 
 /**
  * Created with IntelliJ IDEA.

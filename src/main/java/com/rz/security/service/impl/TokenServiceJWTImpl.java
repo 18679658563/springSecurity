@@ -1,15 +1,14 @@
 package com.rz.security.service.impl;
 
-import com.rz.security.dto.LoginUser;
-import com.rz.security.dto.TokenDto;
-import com.rz.security.pojo.Log;
+import com.rz.security.model.dto.LoginUser;
+import com.rz.security.model.dto.TokenDto;
+import com.rz.security.model.pojo.Log;
 import com.rz.security.service.ILogService;
 import com.rz.security.service.ITokenService;
 import com.rz.security.tools.SerializeUtil;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;

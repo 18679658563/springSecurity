@@ -2,15 +2,13 @@ package com.rz.security.controller;
 
 import com.google.common.collect.Maps;
 import com.rz.security.annotation.LogAOP;
-import com.rz.security.dto.RoleDto;
+import com.rz.security.model.dto.RoleDto;
 import com.rz.security.mapper.RoleMapper;
 import com.rz.security.page.PageTableHandler;
 import com.rz.security.page.PageTableRequest;
 import com.rz.security.page.PageTableResponse;
-import com.rz.security.pojo.Role;
+import com.rz.security.model.pojo.Role;
 import com.rz.security.service.IRoleService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;

@@ -1,9 +1,6 @@
-package com.rz.security.pojo;
+package com.rz.security.model.pojo;
 
 import lombok.Data;
-
-import java.util.Date;
-import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
