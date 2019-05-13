@@ -1,78 +1,71 @@
 package com.rz.security.tools;
 
-import lombok.Data;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.hssf.usermodel.*;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.*;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 /***
  * Created with IntelliJ IDEA.
- * Description: excel工具类
+ * Description: Excel文件转化
  * User: silence
  * Date: 2019-04-16
- * Time: 下午4:29
+ * Time: 上午10:31
  */
 public class ExcelUtil {
     /**
      * excel转对象
+     * @param path
      * @return
      */
-    public static List<Test> getTest(String filePath){
-        Workbook wb =null;
-        Sheet sheet = null;
-        Row row = null;
-        List<Test> list = null;
+    public static List<List<String>> getTest(String path){
+        List<List<String>> result = new LinkedList<>();
         String cellData = null;
-        wb = readExcel(filePath);
+        Workbook wb  = readExcel(path);
         if(wb != null){
-            //用来存放表中数据
-            list = new ArrayList<>();
             //获取第一个sheet
-            sheet = wb.getSheetAt(0);
+            Sheet sheet = wb.getSheetAt(0);
             //获取最大行数
             int rownum = sheet.getPhysicalNumberOfRows();
             //获取第一行
-            row = sheet.getRow(0);
+            Row row = sheet.getRow(0);
+            List<String> headList = new ArrayList<>();
             //获取最大列数
             int colnum = row.getPhysicalNumberOfCells();
+            //将列头放入第一行
+            for(int x = 0 ; x < colnum ;x ++){
+                headList.add((String) getCellFormatValue(row.getCell(x)));
+            }
+            result.add(0,headList);
             for (int i = 1; i<rownum; i++) {
-                Test test = new Test();
+                List<String> list = new ArrayList<>();
                 row = sheet.getRow(i);
                 if(row !=null){
                     for (int j=0;j<colnum;j++){
                         cellData = (String) getCellFormatValue(row.getCell(j));
-                        switch (j) {
-                            case 0:
-                                test.setId(cellData);break;
-                            case 1:
-                                test.setName(cellData);break;
-                            case 2:
-                                test.setMonth(cellData);break;
-                            case 3:
-                                double x = Double.valueOf(cellData);
-                                test.setMy((int)x);break;
-                            case 4:
-                                double y = Double.valueOf(cellData);
-                                test.setYy((int)y);break;
-                        }
+                        list.add(cellData);
                     }
+                    result.add(list);
                 }else{
                     break;
                 }
-                list.add(test);
             }
         }
-        return list;
+        return result;
     }
 
-    //读取excel
+    /**
+     *    读取excel
+     */
     public static Workbook readExcel(String filePath){
         Workbook wb = null;
-        if(filePath==null){
+        if(StringUtils.isBlank(filePath)){
             return null;
         }
         String extString = filePath.substring(filePath.lastIndexOf("."));
@@ -94,6 +87,11 @@ public class ExcelUtil {
         return wb;
     }
 
+    /**
+     * 获取哪一行当列的数据
+     * @param cell
+     * @return
+     */
     public static Object getCellFormatValue(Cell cell){
         Object cellValue = null;
         if(cell!=null){
@@ -127,45 +125,37 @@ public class ExcelUtil {
         return cellValue;
     }
 
-    public static void toExcel(List<Test> list){
+    /**
+     * 转化成excel
+     * @param data 数据源
+     * @param path 写出文件路径
+     */
+    public static void toExcel(List<List<String>> data,String path){
         // 第一步，创建一个webbook，对应一个Excel文件
         HSSFWorkbook wb = new HSSFWorkbook();
         // 第二步，在webbook中添加一个sheet,对应Excel文件中的sheet
         HSSFSheet sheet = wb.createSheet("测试表一");
         // 第三步，在sheet中添加表头第0行,注意老版本poi对Excel的行数列数有限制short
-        HSSFRow row = sheet.createRow((int) 0);
+        HSSFRow row = null;
         // 第四步，创建单元格，并设置值表头 设置表头居中
         HSSFCellStyle style = wb.createCellStyle();
         //style.setAlignment(HSSFCellStyle.ALIGN_CENTER); // 创建一个居中格式
-
-        HSSFCell cell = row.createCell((short) 0);
-        cell.setCellValue("id");
-        cell.setCellStyle(style);
-        cell = row.createCell((short) 1);
-        cell.setCellValue("name");
-        cell.setCellStyle(style);
-        cell = row.createCell((short) 2);
-        cell.setCellValue("month");
-        cell.setCellStyle(style);
-        cell = row.createCell((short) 3);
-        cell.setCellValue("my");
-        cell.setCellStyle(style);
-        cell = row.createCell((short) 4);
-        cell.setCellValue("yy");
-        cell.setCellStyle(style);
-        for (int i = 0; i < list.size(); i++){
-            row = sheet.createRow((int) i + 1);
-            Test test =  list.get(i);
-            // 第四步，创建单元格，并设置值
-            row.createCell((short) 0).setCellValue( test.getId());
-            row.createCell((short) 1).setCellValue(test.getName());
-            row.createCell((short) 2).setCellValue(test.getMonth());
-            row.createCell((short) 3).setCellValue(test.getMy());
-            row.createCell((short) 4).setCellValue(test.getYy());
+        //每行每列数据
+        HSSFCell cell = null;
+        //每行
+        for(int j = 0 ; j < data.size() ; j ++){
+            row = sheet.createRow(j);
+            //每列
+            for(int i = 0 ; i < data.get(0).size() ; i ++){
+                //创建列 赋值
+                cell = row.createCell(i);
+                cell.setCellValue(data.get(j).get(i));
+                cell.setCellStyle(style);
+            }
         }
         // 第六步，将文件存到指定位置
         try{
-            FileOutputStream fout = new FileOutputStream("/home/silence/下载/test.xlsx");
+            FileOutputStream fout = new FileOutputStream(path);
             wb.write(fout);
             fout.close();
         }catch (Exception e)  {
@@ -173,18 +163,21 @@ public class ExcelUtil {
         }
     }
 
-}
-@Data
-class Test {
+    /**
+     * 获取属性字段的value
+     */
+    public static String getFieldValueByName(String fieldName, Object o) {
+        try {
+            String firstLetter = fieldName.substring(0, 1).toUpperCase();
+            String getter = "get" + firstLetter + fieldName.substring(1);
+            Method method = o.getClass().getMethod(getter, new Class[] {});
+            String value = (String)method.invoke(o, new Object[] {});
+            return value;
+        } catch (Exception e) {
+            return "1";
+        }
+    }
 
-    private String id;
 
-    private String name;
-
-    private String month;
-
-    private Integer my;
-
-    private Integer yy;
 }
 
